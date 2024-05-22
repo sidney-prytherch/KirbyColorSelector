@@ -243,20 +243,20 @@ function randomizeKirbyEverything() {
     // }
     let randomNumFeet = Math.random() * 360;
     let randomNumBody = Math.random() * 360;
-    let randomNumFeetSat = Math.random();
-    let randomNumBodySat = Math.random();
-    let randomNumFeetBright = Math.random();
-    let randomNumBodyBright = Math.random();
+    let randomNumFeetSat = Math.random() *.8 + .1 ;
+    let randomNumBodySat = Math.random() *.8 + .1 ;
+    let randomNumFeetBright = Math.random() *.8 + .1 ;
+    let randomNumBodyBright = Math.random() *.8 + .1 ;
 
     for (let i = 0; i < tableRows.length; i++) {
         if (body.indexOf(i) === -1) {
             tableRows[i].input.value = changeHue(tableRows[i].input.value, randomNumFeet)
-            tableRows[i].input.value = changeSaturation(tableRows[i].input.value, randomNumFeetSat)
-            tableRows[i].input.value = changeBrightness(tableRows[i].input.value, randomNumFeetBright)
+            tableRows[i].input.value = setSaturation(tableRows[i].input.value, randomNumFeetSat)
+            tableRows[i].input.value = setBrightness(tableRows[i].input.value, randomNumFeetBright)
         } else {
             tableRows[i].input.value = changeHue(tableRows[i].input.value, randomNumBody)
-            tableRows[i].input.value = changeSaturation(tableRows[i].input.value, randomNumBodySat)
-            tableRows[i].input.value = changeBrightness(tableRows[i].input.value, randomNumBodyBright)
+            tableRows[i].input.value = setSaturation(tableRows[i].input.value, randomNumBodySat)
+            tableRows[i].input.value = setBrightness(tableRows[i].input.value, randomNumBodyBright)
         }
     }
     saveCurrentColors()
@@ -830,6 +830,31 @@ function setHue(rgbTo, rgbFrom) {
     return hslToRGB(hsl);
 }
 
+function setSaturation(rgb, degree) {
+    var hsl = rgbToHSL(rgb);
+    hsl.s = degree;
+    if (hsl.s > 1) {
+        hsl.s = 1;
+    }
+    else if (hsl.s < 0) {
+        hsl.s = 0;
+    }
+    return hslToRGB(hsl);
+}
+
+function setHue(rgbTo, rgbFrom) {
+    var hsl = rgbToHSL(rgbTo);
+    var hsl2 = rgbToHSL(rgbFrom).h;
+    hsl.h = hsl2;
+    if (hsl.h > 360) {
+        hsl.h -= 360;
+    }
+    else if (hsl.h < 0) {
+        hsl.h += 360;
+    }
+    return hslToRGB(hsl);
+}
+
 function changeSaturation(rgb, degree) {
     var hsl = rgbToHSL(rgb);
     hsl.s = +degree;
@@ -838,6 +863,18 @@ function changeSaturation(rgb, degree) {
     }
     else if (hsl.s < 0) {
         hsl.s = 0;
+    }
+    return hslToRGB(hsl);
+}
+
+function setBrightness(rgb, degree) {
+    var hsl = rgbToHSL(rgb);
+    hsl.l = degree;
+    if (hsl.l > 1) {
+        hsl.l = 1;
+    }
+    else if (hsl.l < 0) {
+        hsl.l = 0;
     }
     return hslToRGB(hsl);
 }
