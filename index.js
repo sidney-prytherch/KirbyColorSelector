@@ -668,7 +668,7 @@ function setHue(rgbTo, rgbFrom) {
 
 function changeSaturation(rgb, degree) {
     var hsl = rgbToHSL(rgb);
-    hsl.s = degree;
+    hsl.s = +degree;
     if (hsl.s > 1) {
         hsl.s = 1;
     }
@@ -680,7 +680,7 @@ function changeSaturation(rgb, degree) {
 
 function changeBrightness(rgb, degree) {
     var hsl = rgbToHSL(rgb);
-    hsl.l = degree;
+    hsl.l += degree;
     if (hsl.l > 1) {
         hsl.l = 1;
     }
