@@ -1,6 +1,11 @@
 let loaded = false
 let kirbyTable;
 
+let image1, image0, image2, image3, image4;
+
+let kirbyImages;
+let currentImage;
+let intervalActive;
 
 let kirbyColorz;
 let kirbyColors;
@@ -20,6 +25,7 @@ let saturationFeetSlider;
 let brightnessSlider;
 let brightnessBodySlider;
 let brightnessFeetSlider;
+
 
 function saveCurrentColors() {
     for (let i = 0; i < tableRows.length; i++) {
@@ -223,7 +229,7 @@ function choasButton() {
     else if (random < 6) {
         reverseFeetSaturation()
     }
-    if (Math.random()*10 < 7) {
+    if (Math.random() * 10 < 7) {
         foreheadFix()
     }
     saveCurrentColors()
@@ -299,6 +305,8 @@ function resetKirbyColors() {
 
 }
 
+let canvas, ctx;
+
 function doStuff() {
     if (!loaded) {
         loadValues();
@@ -309,11 +317,12 @@ function doStuff() {
     updateKirbyColors();
 
 
-    const canvas = document.getElementById("canvas")
-    const ctx = canvas.getContext("2d");
-    for (let y = 0; y < kirbyTable.length; y++) {
-        for (let x = 0; x < kirbyTable[y].length; x++) {
-            let color = kirbyTable[y] ? kirbyTable[y][x] ? kirbyTable[y][x].color ? kirbyTable[y][x].color : "#FFFFFF" : "#FFFFFF" : "#FFFFFF";
+    canvas = document.getElementById("canvas")
+    ctx = canvas.getContext("2d");
+    let currentImageOfKirby = kirbyImages[currentImage];
+    for (let y = 0; y < currentImageOfKirby.length; y++) {
+        for (let x = 0; x < currentImageOfKirby[y].length; x++) {
+            let color = currentImageOfKirby[y] ? currentImageOfKirby[y][x] ? currentImageOfKirby[y][x].color ? currentImageOfKirby[y][x].color : "#FFFFFF" : "#FFFFFF" : "#FFFFFF";
 
             ctx.fillStyle = color;
 
@@ -339,9 +348,36 @@ function updateKirbyColors() {
 }
 //1, 13, 14, 7, 9, 10, 4
 
+let interval;
 
+function startAnimation() {
+    interval = setInterval(function() {
+        currentImage = ((currentImage + 1) % kirbyImages.length);
+        doStuff();
+    }, 100);
+    intervalActive = true;
+}
+
+function stopAnimation() {
+    clearInterval(interval)
+    intervalActive = false;
+}
+
+function changeAnimation() {
+    if (intervalActive) {
+        stopAnimation()
+    } else {
+        startAnimation();
+    }
+}
 
 function loadValues() {
+
+    canvas = document.getElementById("canvas")
+    ctx = canvas.getContext("2d");
+
+    canvas.addEventListener("click", changeAnimation, false);
+
     textarea = document.getElementById("textarea")
     hueSlider = document.getElementById("hueSlider")
     hueSlider.addEventListener("input", changeKirbyHue)
@@ -543,6 +579,119 @@ function loadValues() {
         ]
     ]
 
+    image0 = [
+        [null, null, null, null, null, null, null, "#C8A0A8", "#C8A0A8", "#C8A0A8", "#C8A0A8", "#C8A0A8", "#C8A0A8", null, null, null, null, null, null, null, null,],
+        [null, null, null, null, null, "#B08888", "#B08888", "#D0C0C0", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F0E0E8", "#D0C0C0", "#C8A0A8", null, null, null, null, null, null, null,],
+        [null, null, null, null, "#B08888", "#C8A0A8", "#E8D0D0", "#E8D0D0", "#F0E0E8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F0E0E8", "#B08888", null, null, null, null, null, null,],
+        [null, null, null, "#B08888", "#C8A0A8", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F8F8F8", "#F0E0E8", "#B08888", null, null, null, null, null,],
+        [null, null, null, "#B08888", "#E8D0D0", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F8F8F8", "#B08888", null, null, null, null, null,],
+        [null, null, "#B08888", "#C8A0A8", "#E8D0D0", "#E8D0D0", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#A85048", "#F0E0E8", "#B08888", null, null, null, null,],
+        [null, null, "#B08888", "#F0A0B8", "#E8D0D0", "#E8D0D0", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#B08888", "#F0E0E8", "#A87070", null, null, null, null,],
+        [null, "#B08888", "#C8A0A8", "#F0A0B8", "#F0A0B8", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#A85048", "#F0E0E8", "#A87070", null, null, null, null,],
+        [null, "#A85048", "#C8A0A8", "#F0A0B8", "#F0A0B8", "#E8D0D0", "#F0E0E8", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#B08888", "#E87880", "#E87880", "#A85048", "#F0E0E8", "#D0C0C0", "#A87070", null, null, null,],
+        [null, "#A85048", "#D07880", "#F0A0B8", "#F0A0B8", "#F0E0E8", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#B08888", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F8F8F8", "#A87070", null, null, null,],
+        [null, "#A85048", "#D07880", "#E87880", "#F0A0B8", "#C8A0A8", "#F0A0B8", "#E8D0D0", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#E8D0D0", "#B08888", "#F0E0E8", "#F0E0E8", "#A85048", "#F0E0E8", "#A85048", null, null, null,],
+        [null, "#A85048", "#A85048", "#E87880", "#F0A0B8", "#A87070", "#D07880", "#F0A0B8", "#F0A0B8", "#E8D0D0", "#F0E0E8", "#D0C0C0", "#B08888", "#F0E0E8", "#F8F8F8", "#A85048", "#F0E0E8", "#A85048", null, null, null,],
+        ["#A85048", "#B03830", "#B03830", "#A87070", "#F0A0B8", "#F0A0B8", "#A85048", "#D07880", "#D07880", "#F0A0B8", "#E8D0D0", "#A87070", "#D0C0C0", "#F0E0E8", "#F0E0E8", "#E8D0D0", "#D0C0C0", "#A85048", "#A85048", "#A87070", null,],
+        ["#A85048", "#E02018", "#E85048", "#A85048", "#A87070", "#F0A0B8", "#F0A0B8", "#D07880", "#A87070", "#A87070", "#B08888", "#C8A0A8", "#E8D0D0", "#E8D0D0", "#E8D0D0", "#D0C0C0", "#A85048", "#A87070", "#E87880", "#E87880", "#A87070",],
+        ["#A85048", "#B03830", "#E02018", "#E85048", "#A85048", "#A85048", "#D07880", "#F0A0B8", "#F0A0B8", "#F0A0B8", "#F0A0B8", "#F0A0B8", "#F0A0B8", "#F0A0B8", "#A85048", "#A87070", "#D07880", "#D07880", "#F0A0B8", "#E87880", "#A87070",],
+        [null, "#A85048", "#E02018", "#E02018", "#E85048", "#E85048", "#A85048", "#A85048", "#D07880", "#D07880", "#F0A0B8", "#F0A0B8", "#F0A0B8", "#C8A0A8", "#D07880", "#A85048", "#B03830", "#E87880", "#E85048", "#A85048", null,],
+        [null, "#A85048", "#B03830", "#E02018", "#E02018", "#E85048", "#B03830", "#B03830", "#B03830", "#B03830", "#B03830", "#B03830", "#B03830", "#B01810", "#E02018", "#E02018", "#E02018", "#E02018", "#A85048", "#A85048", null,],
+        [null, null, "#A85048", "#B03830", "#B01810", null, null, null, null, null, null, null, "#B03830", "#B03830", "#E02018", "#B03830", "#B03830", "#A85048", null, null, null,],
+        [null, null, null, null, null, null, null, null, null, null, null, null, null, "#B03830", "#B03830", null, null, null, null, null, null,],
+    ];
+    image1 = [
+        [null, null, null, null, null, null, null, null, "#B08888", "#C8A0A8", "#C8A0A8", "#C8A0A8", "#B08888", null, null, null, null, null, null, null, null,],
+        [null, null, null, null, null, null, "#B08888", "#C8A0A8", "#E8D0D0", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#B08888", "#B08888", null, null, null, null, null, null,],
+        [null, null, null, null, null, "#B08888", "#C8A0A8", "#D0C0C0", "#F8F8F8", "#F0E0E8", "#F0E0E8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#B08888", null, null, null, null, null,],
+        [null, null, null, null, "#B08888", "#C8A0A8", "#D0C0C0", "#F8F8F8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#B08888", null, null, null, null,],
+        [null, null, null, null, "#B08888", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#B08888", null, null, null,],
+        [null, null, null, "#B08888", "#C8A0A8", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F8F8F8", "#F8F8F8", "#F0E0E8", "#F8F8F8", "#F8F8F8", "#B08888", null, null, null,],
+        [null, null, null, "#B08888", "#E8D0D0", "#E8D0D0", "#E8D0D0", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#A87070", "#F0E0E8", "#A87070", "#B08888", null, null, null,],
+        [null, null, "#A87070", "#C8A0A8", "#E8D0D0", "#E8D0D0", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#B08888", "#F0E0E8", "#B08888", "#B08888", null, null, null,],
+        [null, null, "#A85048", "#F0A0B8", "#F0A0B8", "#E8D0D0", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#A85048", "#F0E0E8", "#A85048", "#C8A0A8", "#B08888", null, null,],
+        [null, null, "#A87070", "#E87880", "#F0A0B8", "#F0A0B8", "#E8D0D0", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0A0B8", "#E87880", "#E87880", "#A85048", "#F0E0E8", "#A85048", "#D07880", "#B08888", null, null,],
+        [null, null, "#A85048", "#E87880", "#F0A0B8", "#F0A0B8", "#F0A0B8", "#E8D0D0", "#E8D0D0", "#F0A0B8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#E8D0D0", "#F0E0E8", "#E8D0D0", "#F0A0B8", "#A85048", null, null,],
+        [null, null, "#A85048", "#A87070", "#E87880", "#F0A0B8", "#F0A0B8", "#F0A0B8", "#F0A0B8", "#A87070", "#F0E0E8", "#F0E0E8", "#F8F8F8", "#F0E0E8", "#F0E0E8", "#A85048", "#E8D0D0", "#F8F8F8", "#A85048", null, null,],
+        [null, null, null, "#A85048", "#A85048", "#E85048", "#E87880", "#D07880", "#A85048", "#A87070", "#E8D0D0", "#F0E0E8", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F8F8F8", "#A85048", null, null,],
+        [null, null, null, "#A85048", "#A87070", "#B03830", "#A85048", "#A85048", "#D07880", "#F0A0B8", "#E8D0D0", "#E8D0D0", "#E8D0D0", "#E8D0D0", "#E8D0D0", "#E8D0D0", "#E8D0D0", "#A85048", null, null, null,],
+        [null, null, null, "#A85048", "#B03830", "#E02018", "#B03830", "#E85048", "#F0A0B8", "#F0A0B8", "#F0A0B8", "#F0A0B8", "#F0A0B8", "#F0A0B8", "#F0A0B8", "#A85048", "#A85048", "#A85048", null, null, null,],
+        [null, null, null, "#A85048", "#B01810", "#E02018", "#E85048", "#B03830", "#B03830", "#A85048", "#B03830", "#A85048", "#A85048", "#A85048", "#A85048", "#E85048", "#E85048", "#B03830", null, null, null,],
+        [null, null, null, "#A85048", "#A85048", "#E02018", "#E85048", "#E85048", "#E85048", "#E85048", "#B03830", "#B01810", "#E02018", "#E02018", "#E85048", "#E85048", "#E85048", "#A85048", null, null, null,],
+        [null, null, null, null, "#B03830", "#B03830", "#B01810", "#E02018", "#E02018", "#A85048", null, "#A85048", "#A85048", "#E02018", "#E02018", "#E02018", "#B03830", null, null, null, null,],
+        [null, null, null, null, null, "#B03830", "#B03830", "#A85048", "#A87070", null, null, null, null, "#A85048", "#A85048", "#A85048", null, null, null, null, null,],
+    ];
+    image2 = [
+        [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,],
+        [null, null, null, null, null, null, null, null, "#B08888", "#B08888", "#C8A0A8", "#C8A0A8", "#C8A0A8", "#B08888", "#B08888", null, null, null, null, null, null,],
+        [null, null, null, null, null, null, "#A87070", "#B08888", "#E8D0D0", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F0E0E8", "#D0C0C0", "#B08888", null, null, null, null, null,],
+        [null, null, null, null, null, "#A87070", "#E8D0D0", "#F0E0E8", "#F8F8F8", "#F0E0E8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#D0C0C0", "#A87070", null, null, null, null,],
+        [null, null, null, null, "#A87070", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F8F8F8", "#F0E0E8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#E8D0D0", "#A87070", null, null, null,],
+        [null, null, null, null, "#A85048", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#A87070", null, null, null,],
+        [null, null, null, "#A87070", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F8F8F8", "#F0E0E8", "#F0E0E8", "#F8F8F8", "#E8D0D0", "#A87070", null, null,],
+        [null, null, null, "#A85048", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F8F8F8", "#F0E0E8", "#A87070", "#F0E0E8", "#A85048", "#D0C0C0", "#A85048", null, null,],
+        [null, null, "#A85048", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#B08888", "#F0E0E8", "#B08888", "#C8A0A8", "#A85048", null, null,],
+        [null, "#A85048", "#F0A0B8", "#E8D0D0", "#E8D0D0", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F0E0E8", "#A85048", "#F0E0E8", "#A85048", "#B08888", "#F0E0E8", "#A87070", null,],
+        [null, "#A85048", "#F0A0B8", "#E8D0D0", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#E87880", "#E85048", "#E87880", "#F0E0E8", "#A85048", "#F0E0E8", "#A85048", "#D07880", "#E87880", "#A85048", null,],
+        [null, "#A85048", "#C8A0A8", "#E8D0D0", "#E8D0D0", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F8F8F8", "#F0E0E8", "#F0E0E8", "#A85048", null,],
+        [null, "#A85048", "#B08888", "#F0A0B8", "#E8D0D0", "#E8D0D0", "#E8D0D0", "#F0A0B8", "#E8D0D0", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#E8D0D0", "#E8D0D0", "#F8F8F8", "#F0E0E8", "#A85048", null,],
+        [null, null, "#A85048", "#B08888", "#E87880", "#E87880", "#A85048", "#C8A0A8", "#F0A0B8", "#F0A0B8", "#F0A0B8", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#A85048", "#E8D0D0", "#F0E0E8", "#A85048", null, null,],
+        [null, null, null, "#A85048", "#A85048", "#A85048", "#A85048", "#E87880", "#E87880", "#F0A0B8", "#F0A0B8", "#E8D0D0", "#E8D0D0", "#E8D0D0", "#E8D0D0", "#E8D0D0", "#F0A0B8", "#A85048", null, null, null,],
+        [null, null, null, null, null, "#E02018", "#B03830", "#B03830", "#A85048", "#E85048", "#C8A0A8", "#F0A0B8", "#F0A0B8", "#F0A0B8", "#F0A0B8", "#D07880", "#A85048", null, null, null, null,],
+        [null, null, null, null, null, "#A85048", "#E02018", "#E02018", "#E02018", "#B03830", "#A85048", "#A85048", "#D07880", "#A85048", "#B03830", "#E85048", "#A85048", null, null, null, null,],
+        [null, null, null, null, null, null, "#A85048", "#B01810", "#E02018", "#E02018", "#E02018", "#E02018", "#E85048", "#B03830", "#B01810", "#E85048", "#A85048", null, null, null, null,],
+        [null, null, null, null, null, null, null, "#A85048", "#D07880", "#A85048", "#A85048", "#A85048", "#D07880", "#C8A0A8", "#D07880", "#A85048", null, null, null, null, null,],
+    ];
+    image3 = [
+        [null, null, null, null, null, null, null, null, "#B08888", "#C8A0A8", "#C8A0A8", "#C8A0A8", "#C8A0A8", "#B08888", null, null, null, null, null, null, null,],
+        [null, null, null, null, null, null, "#B08888", "#B08888", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#B08888", "#B08888", null, null, null, null, null,],
+        [null, null, null, null, "#B08888", "#B08888", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F0E0E8", "#B08888", null, null, null, null,],
+        [null, null, null, "#B08888", "#E8D0D0", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#D0C0C0", "#A87070", null, null, null,],
+        [null, null, "#B08888", "#E8D0D0", "#F8F8F8", "#F8F8F8", "#F0E0E8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#A87070", "#A87070", null, null,],
+        [null, null, "#A87070", "#F8F8F8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#A85048", "#F8F8F8", "#A85048", "#F8F8F8", "#A87070", "#D0C0C0", "#A87070", null,],
+        [null, "#B08888", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#B08888", "#F8F8F8", "#B08888", "#F0E0E8", "#C8A0A8", "#A87070", "#A87070", null,],
+        [null, "#A87070", "#E8D0D0", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#A85048", "#F8F8F8", "#A85048", "#F0E0E8", "#F8F8F8", "#A87070", "#D0C0C0", "#A87070",],
+        [null, "#A85048", "#F0A0B8", "#E8D0D0", "#F0E0E8", "#E8D0D0", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#A85048", "#F8F8F8", "#A85048", "#F0E0E8", "#F8F8F8", "#A87070", "#D0C0C0", "#A85048",],
+        [null, "#A85048", "#A87070", "#F0A0B8", "#F0A0B8", "#F0A0B8", "#E8D0D0", "#F0E0E8", "#F8F8F8", "#F0E0E8", "#F0A0B8", "#E87880", "#F0E0E8", "#B08888", "#F0E0E8", "#B08888", "#E87880", "#F0E0E8", "#D0C0C0", "#A87070", "#A87070",],
+        [null, null, "#A85048", "#A87070", "#D07880", "#F0A0B8", "#D0C0C0", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F8F8F8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#D0C0C0", "#A85048", null,],
+        [null, null, null, "#A85048", "#A85048", "#A85048", "#C8A0A8", "#F0A0B8", "#E8D0D0", "#E8D0D0", "#F0E0E8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#A85048", "#F0E0E8", "#F8F8F8", "#F8F8F8", "#A87070", "#A85048", null,],
+        [null, null, null, null, null, "#A85048", "#D07880", "#F0A0B8", "#F0A0B8", "#E8D0D0", "#E8D0D0", "#F0E0E8", "#E8D0D0", "#D0C0C0", "#D0C0C0", "#E8D0D0", "#F0E0E8", "#E8D0D0", "#A85048", null, null,],
+        [null, null, null, null, null, null, "#A87070", "#D07880", "#F0A0B8", "#F0A0B8", "#F0A0B8", "#D07880", "#D07880", "#A85048", "#A87070", "#A85048", "#E87880", "#A85048", null, null, null,],
+        [null, null, null, null, null, null, "#A85048", "#B03830", "#B03830", "#A85048", "#A85048", "#A85048", "#E87880", "#E87880", "#F0A0B8", "#D07880", "#A87070", null, null, null, null,],
+        [null, null, null, null, null, null, "#A85048", "#E02018", "#E85048", "#E85048", "#B03830", "#E85048", "#E85048", "#E85048", "#E85048", "#A87070", null, null, null, null, null,],
+        [null, null, null, null, null, null, "#A87070", "#A85048", "#E02018", "#B01810", "#E02018", "#E02018", "#E02018", "#E85048", "#A87070", null, null, null, null, null, null,],
+        [null, null, null, null, null, null, null, "#A85048", "#B01810", "#A85048", "#B01810", "#E02018", "#E02018", "#A87070", null, null, null, null, null, null, null,],
+        [null, null, null, null, null, null, null, null, "#A87070", "#A85048", "#A87070", "#D07880", "#A87070", null, null, null, null, null, null, null, null,],
+    ];
+    image4 = [
+        [null, null, null, null, null, null, null, null, "#B08888", "#C8A0A8", "#C8A0A8", "#C8A0A8", "#C8A0A8", "#B08888", null, null, null, null, null, null, null,],
+        [null, null, null, null, null, null, "#B08888", "#B08888", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#B08888", "#B08888", null, null, null, null, null,],
+        [null, null, null, "#A87070", "#B08888", "#B08888", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F0E0E8", "#B08888", null, null, null, null,],
+        [null, null, "#A87070", "#F8F8F8", "#F8F8F8", "#F0E0E8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#C8A0A8", "#A87070", "#A87070", null, null,],
+        [null, "#A87070", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F0E0E8", "#E8D0D0", "#A87070", "#F8F8F8", "#A87070", null,],
+        [null, "#A85048", "#F0E0E8", "#F0E0E8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#A87070", "#F8F8F8", "#A87070", "#F8F8F8", "#E8D0D0", "#E8D0D0", "#F8F8F8", "#F8F8F8", "#A87070",],
+        [null, "#A87070", "#F0A0B8", "#E8D0D0", "#F0E0E8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#B08888", "#F8F8F8", "#B08888", "#F8F8F8", "#E8D0D0", "#E8D0D0", "#E8D0D0", "#F8F8F8", "#A87070",],
+        [null, "#A85048", "#F0A0B8", "#F0A0B8", "#E8D0D0", "#F0E0E8", "#F8F8F8", "#F8F8F8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F8F8F8", "#A85048", "#F8F8F8", "#A85048", "#F8F8F8", "#E8D0D0", "#E8D0D0", "#A87070", "#F8F8F8", "#A87070",],
+        [null, "#A85048", "#D07880", "#F0A0B8", "#F0A0B8", "#E8D0D0", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#E87880", "#E85048", "#F8F8F8", "#A85048", "#F8F8F8", "#A85048", "#F8F8F8", "#E87880", "#E85048", "#A85048", "#E8D0D0", "#A87070",],
+        [null, null, "#A85048", "#A85048", "#B08888", "#F0A0B8", "#E8D0D0", "#F0E0E8", "#F8F8F8", "#F8F8F8", "#F0E0E8", "#F0E0E8", "#F8F8F8", "#F0E0E8", "#F0E0E8", "#F8F8F8", "#F8F8F8", "#F0E0E8", "#A85048", "#A87070", null,],
+        [null, null, null, null, "#A85048", "#F0A0B8", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F8F8F8", "#F8F8F8", "#F8F8F8", "#E8D0D0", "#A85048", "#F8F8F8", "#F8F8F8", "#E8D0D0", "#A85048", null, null,],
+        [null, null, null, null, "#A85048", "#A87070", "#F0A0B8", "#E8D0D0", "#E8D0D0", "#E8D0D0", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#F0E0E8", "#A85048", "#E8D0D0", "#F0A0B8", "#C8A0A8", "#A85048", null, null,],
+        [null, null, null, null, null, "#A85048", "#D07880", "#F0A0B8", "#F0A0B8", "#E8D0D0", "#E8D0D0", "#E8D0D0", "#E8D0D0", "#C8A0A8", "#C8A0A8", "#A85048", "#A85048", "#A85048", "#A85048", null, null,],
+        [null, null, null, null, null, "#A85048", "#A85048", "#D07880", "#F0A0B8", "#F0A0B8", "#F0A0B8", "#C8A0A8", "#C8A0A8", "#A85048", "#A85048", "#E87880", "#E87880", "#A85048", null, null, null,],
+        [null, null, null, null, null, null, "#A85048", "#A85048", "#A85048", "#A85048", "#D07880", "#B03830", "#A85048", "#E87880", "#E85048", "#E02018", "#E02018", "#D07880", null, null, null,],
+        [null, null, null, null, null, "#A87070", "#E02018", "#E85048", "#E85048", "#A85048", "#B01810", "#B01810", "#E02018", "#E02018", "#E02018", "#E85048", "#D07880", "#A87070", null, null, null,],
+        [null, null, null, null, null, "#A85048", "#B01810", "#E02018", "#E02018", "#E85048", "#A87070", "#A87070", "#B03830", "#E02018", "#A85048", "#D07880", "#A87070", null, null, null, null,],
+        [null, null, null, null, null, null, "#A85048", "#B01810", "#B03830", "#A87070", null, null, "#A87070", "#D07880", "#A87070", "#A87070", null, null, null, null, null,],
+        [null, null, null, null, null, null, null, "#A85048", "#A85048", null, null, null, null, null, null, null, null, null, null, null, null,],
+    ];
+
+    kirbyImages = [image2, image3, image4, image3, image2, image1, image0, image1];
+
+    currentImage = 0;
+    startAnimation();
+
+
+
     //feet: 0,1,2,8,9,10,11,12,13,14
 
     let kirbyColorz = [];
@@ -600,6 +749,21 @@ function loadValues() {
             }
         }
     }
+
+    for (let i = 0; i < kirbyImages.length; i++) {
+        let table = kirbyImages[i];
+        for (let y = 0; y < table.length; y++) {
+            for (let x = 0; x < table[y].length; x++) {
+                for (let color of kirbyColors) {
+                    if (table[y][x] === color.color) {
+                        table[y][x] = color;
+                    }
+                }
+            }
+        }
+    }
+
+
 
     table = document.getElementById("table");
     tableRows = [];
