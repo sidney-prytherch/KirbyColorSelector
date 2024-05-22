@@ -1,0 +1,57 @@
+body {
+    background-color: #d6eaf2;
+    width: 80%;
+    margin: auto;
+}
+
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    /* border: 1px black solid; */
+    margin: 5px;
+    padding: 5px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.row {
+    flex-direction: row;
+}
+
+table {
+    min-width: 200px;
+}
+
+table, tr, td, input[type="color"] {
+    margin: 0;
+    padding: 0;
+}
+
+td button {
+    width: 100%;
+}
+
+input[type="range"] {
+    min-width: 200px;
+}
+
+button {
+    background-color: rgb(151, 219, 255);
+    border: 3px solid rgb(39, 179, 255);
+    padding: 8px;
+    margin: 8px;
+    border-radius: 4px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+span {
+    display: flex;
+    justify-content: center
+}

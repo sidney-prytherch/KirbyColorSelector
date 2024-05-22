@@ -27,6 +27,11 @@ let brightnessBodySlider;
 let brightnessFeetSlider;
 
 
+let canvas, ctx;
+
+let pixelSize = 20;
+
+
 function saveCurrentColors() {
     for (let i = 0; i < tableRows.length; i++) {
         currentKirbyColors[i] = tableRows[i].input.value
@@ -245,10 +250,13 @@ function saveGif() {
         startAnimation()
     }
     recording = false
+    pixelSize = 20;
+    pixelSizeSlider.value = 20;
     saveGifHelper()
 }
 
 let frameToEndOn;
+let pixelSizeSlider;
 
 function saveGifHelper() {
     frameToEndOn = 0;
@@ -351,7 +359,6 @@ function resetKirbyColors() {
 
 }
 
-let canvas, ctx;
 
 function doStuff() {
     if (!loaded) {
@@ -362,18 +369,24 @@ function doStuff() {
 
     updateKirbyColors();
 
-
-    canvas = document.getElementById("canvas")
-    ctx = canvas.getContext("2d");
     let currentImageOfKirby = kirbyImages[currentImage];
+
+    let color = "#d6eaf2";
+
+    ctx.fillStyle = color;
+
+    ctx.beginPath(); // Start a new path
+    ctx.rect(0, 0, 420,420); // Add a rectangle to the current path
+    ctx.fill(); // Render the path
+
     for (let y = 0; y < currentImageOfKirby.length; y++) {
         for (let x = 0; x < currentImageOfKirby[y].length; x++) {
-            let color = currentImageOfKirby[y] ? currentImageOfKirby[y][x] ? currentImageOfKirby[y][x].color ? currentImageOfKirby[y][x].color : "#FFFFFF" : "#FFFFFF" : "#FFFFFF";
+            let color = currentImageOfKirby[y] ? currentImageOfKirby[y][x] ? currentImageOfKirby[y][x].color ? currentImageOfKirby[y][x].color : "#d6eaf2" : "#d6eaf2" : "#d6eaf2";
 
             ctx.fillStyle = color;
 
             ctx.beginPath(); // Start a new path
-            ctx.rect(x * 20, y * 20, 20, 20); // Add a rectangle to the current path
+            ctx.rect(x * pixelSize, y * pixelSize, pixelSize, pixelSize); // Add a rectangle to the current path
             ctx.fill(); // Render the path
         }
     }
@@ -387,7 +400,7 @@ function updateKirbyColors() {
 
     let string = "  kirby_flavor:"
     for (let i = tableRows.length - 1; i >= 0; i--) {
-        string += `\n    '${tableRows[i].number}': '${tableRows[i].input.value.replace("#","")}'`
+        string += `\n    '${tableRows[i].number}': '${tableRows[i].input.value.replace("#", "")}'`
     }
     textarea.value = string;
 
@@ -454,6 +467,8 @@ function loadValues() {
     brightnessBodySlider = document.getElementById("brightnessBodySlider")
     brightnessBodySlider.addEventListener("input", changeKirbyBodyBrightness)
 
+    pixelSizeSlider = document.getElementById("pixelSizeSlider")
+    pixelSizeSlider.addEventListener("input", () => {pixelSize = pixelSizeSlider.value})
 
     hueSlider.addEventListener("change", saveCurrentColors)
     feetSlider.addEventListener("change", saveCurrentColors)
