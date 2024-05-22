@@ -331,7 +331,7 @@ function updateKirbyColors() {
     }
 
     let string = "    kirby_flavor:"
-    for (let i = tableRows.length - 1; i > 0; i--) {
+    for (let i = tableRows.length - 1; i >= 0; i--) {
         string += `\n      ${tableRows[i].number}: ${tableRows[i].input.value}`
     }
     textarea.value = string;
