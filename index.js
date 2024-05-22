@@ -751,6 +751,12 @@ function loadValues() {
     let kirbyColorz = [];
 
     let colors = [
+        "#B03830", //5
+        "#F8F8F8", //9 body -> 5
+        "#E87880", //7
+        "#B08888", //15
+        "#D0C0C0", //12 body -> 2
+        "#E85048", //4 
         "#E8D0D0", //11 body -> 14
         "#A85048", //13
         "#D07880", //6
@@ -759,16 +765,10 @@ function loadValues() {
         "#A87070", //2
         "#C8A0A8", //14
         "#F0E0E8", //10 body -> 7
-        "#B03830", //5
-        "#F8F8F8", //9 body -> 5
-        "#E87880", //7
-        "#B08888", //15
-        "#D0C0C0", //12 body -> 2
-        "#E85048", //4 
         "#B01810", //1
     ]
 
-    body = [0, 3, 7, 9, 12]
+    body = [1, 4, 6, 9, 13]
 
     for (let c of colors) {
         kirbyColorz.push(c);
