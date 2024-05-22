@@ -236,6 +236,52 @@ function choasButton() {
     doStuff()
 }
 
+let recording;
+let mediaRecorder;
+let recordedChunks;
+
+function saveGif() {
+    if (!intervalActive) {
+        startAnimation()
+    }
+    recording = false
+    saveGifHelper()
+}
+
+let frameToEndOn;
+
+function saveGifHelper() {
+    frameToEndOn = 0;
+    recording = !recording;
+    if (recording) {
+        const stream = canvas.captureStream(100);
+        mediaRecorder = new MediaRecorder(stream, {
+            mimeType: 'video/webm;codecs=vp9',
+            ignoreMutedMedia: true
+        });
+        recordedChunks = [];
+        mediaRecorder.ondataavailable = e => {
+            if (e.data.size > 0) {
+                recordedChunks.push(e.data);
+            }
+        };
+        mediaRecorder.start();
+    } else {
+        mediaRecorder.stop();
+        setTimeout(() => {
+            const blob = new Blob(recordedChunks, {
+                type: "video/webm"
+            });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "recording.webm";
+            a.click();
+            URL.revokeObjectURL(url);
+        }, 0);
+    }
+}
+
 
 function randomizeKirbyEverything() {
     // if (Math.random() < .2) {
@@ -243,10 +289,10 @@ function randomizeKirbyEverything() {
     // }
     let randomNumFeet = Math.random() * 360;
     let randomNumBody = Math.random() * 360;
-    let randomNumFeetSat = Math.random() *.8 + .1 ;
-    let randomNumBodySat = Math.random() *.8 + .1 ;
-    let randomNumFeetBright = Math.random() *.8 + .1 ;
-    let randomNumBodyBright = Math.random() *.8 + .1 ;
+    let randomNumFeetSat = Math.random() * .8 + .1;
+    let randomNumBodySat = Math.random() * .8 + .1;
+    let randomNumFeetBright = Math.random() * .8 + .1;
+    let randomNumBodyBright = Math.random() * .8 + .1;
 
     for (let i = 0; i < tableRows.length; i++) {
         if (body.indexOf(i) === -1) {
@@ -351,16 +397,24 @@ function updateKirbyColors() {
 let interval;
 
 function startAnimation() {
-    interval = setInterval(function() {
+    interval = setInterval(function () {
         currentImage = ((currentImage + 1) % kirbyImages.length);
         doStuff();
+        if (recording) {
+            frameToEndOn++;
+            if (frameToEndOn > 8) {
+                saveGifHelper();
+            }
+        }
     }, 100);
     intervalActive = true;
 }
 
 function stopAnimation() {
-    clearInterval(interval)
-    intervalActive = false;
+    if (!recording) {
+        clearInterval(interval)
+        intervalActive = false;
+    }
 }
 
 function changeAnimation() {
