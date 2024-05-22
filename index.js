@@ -204,7 +204,7 @@ function reverseBodyBrightness() {
 
 function choasButton() {
     let random = Math.random() * 6;
-    randomizeKirbyEverything();
+    // randomizeKirbyEverything();
     if (random < 1) {
         reverseSaturationAll()
     }
@@ -212,10 +212,10 @@ function choasButton() {
         reverseBrightnessAll()
     }
     else if (random < 3) {
-        reverseBodySaturation()
+        reverseBodyBrightness()
     }
     else if (random < 4) {
-        reverseFeetSaturation()
+        reverseFeetBrightness()
     }
     else if (random < 5) {
         reverseBodySaturation()
@@ -232,9 +232,9 @@ function choasButton() {
 
 
 function randomizeKirbyEverything() {
-    if (Math.random() < .2) {
-        resetKirbyColors()
-    }
+    // if (Math.random() < .2) {
+    //     resetKirbyColors()
+    // }
     let randomNumFeet = Math.random() * 360;
     let randomNumBody = Math.random() * 360;
     let randomNumFeetSat = Math.random();
@@ -337,7 +337,7 @@ function updateKirbyColors() {
     textarea.value = string;
 
 }
-
+//1, 13, 14, 7, 9, 10, 4
 
 
 
