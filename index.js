@@ -6,6 +6,7 @@ let kirbyColorz;
 let kirbyColors;
 let defaultKirbyColors;
 let currentKirbyColors;
+let textarea;
 
 let body;
 let table;
@@ -328,12 +329,20 @@ function updateKirbyColors() {
         kirbyColors[i].color = tableRows[i].input.value;
         tableRows[i].span.innerHTML = `${tableRows[i].number}: ${tableRows[i].input.value}`;
     }
+
+    let string = "    kirby_flavor:"
+    for (let i = tableRows.length - 1; i > 0; i--) {
+        string += `\n      ${tableRows[i].number}: ${tableRows[i].input.value}`
+    }
+    textarea.value = string;
+
 }
 
 
 
 
 function loadValues() {
+    textarea = document.getElementById("textarea")
     hueSlider = document.getElementById("hueSlider")
     hueSlider.addEventListener("input", changeKirbyHue)
     feetSlider = document.getElementById("feetSlider")
