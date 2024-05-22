@@ -310,7 +310,7 @@ function randomizeKirbyEverything() {
 }
 
 function foreheadFix() {
-    tableRows[9].input.value = setHue(tableRows[9].input.value, tableRows[7].input.value)
+    tableRows[1].input.value = setHue(tableRows[1].input.value, tableRows[13].input.value)
     saveCurrentColors()
     doStuff()
 
