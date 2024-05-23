@@ -69,7 +69,7 @@ function uniformBodyHues() {
             if (color == -1) {
                 color = currentKirbyColors[i]
             }
-            tableRows[i].input.value = color
+            tableRows[i].input.value = setHue(tableRows[i].input.value, color)
         }
     }
     saveCurrentColors()
@@ -83,7 +83,7 @@ function uniformFeetHues() {
             if (color == -1) {
                 color = currentKirbyColors[i]
             }
-            tableRows[i].input.value = color
+            tableRows[i].input.value = setHue(tableRows[i].input.value, color)
         }
     }
     saveCurrentColors()
