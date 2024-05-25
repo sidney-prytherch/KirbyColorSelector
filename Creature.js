@@ -63,7 +63,7 @@ class Creature {
 
     uniformPrimaryColorsHues() {
         let color = -1;
-        for (let i = 0; i < this.tableRows.length; i++) {
+        for (let i = this.tableRows.length - 1; i >= 0; i--) {
             if (this.isPrimaryColor(i)) {
                 if (color == -1) {
                     color = this.currentColors[i]
@@ -253,15 +253,7 @@ class Creature {
         } else if (randomReset < 7) {
             this.resetSecondaryColorsToDefault()
         }
-        let randomUniform = Math.random() * 4;
-        if (randomUniform < 1) {
-            this.uniformPrimaryColorsHues()
-        } else if (randomUniform < 2) {
-            this.uniformSecondaryColorsHues()
-        } else if (randomUniform < 3) {
-            this.uniformPrimaryColorsHues()
-            this.uniformSecondaryColorsHues()
-        }
+    
 
         let randomSecondaryColorsHueDegree = Math.random() * 360;
         let randomPrimaryColorsHueDegree = Math.random() * 360;
@@ -272,16 +264,22 @@ class Creature {
 
         for (let i = 0; i < this.tableRows.length; i++) {
             if (this.isSecondaryColor(i)) {
-                this.tableRows[i].input.value = ColorModifiers.shiftColorHueByDegree(this.tableRows[i].input.value, randomSecondaryColorsHueDegree)
-                this.tableRows[i].input.value = ColorModifiers.shiftColorSaturationByDegree(this.tableRows[i].input.value, randomSecondaryColorsSaturation)
                 this.tableRows[i].input.value = ColorModifiers.shiftColorBrightnessByDegree(this.tableRows[i].input.value, randomSecondaryColorsBrightness)
+                this.tableRows[i].input.value = ColorModifiers.shiftColorSaturationByDegree(this.tableRows[i].input.value, randomSecondaryColorsSaturation)
+                this.tableRows[i].input.value = ColorModifiers.shiftColorHueByDegree(this.tableRows[i].input.value, randomSecondaryColorsHueDegree)
             } else {
-                this.tableRows[i].input.value = ColorModifiers.shiftColorHueByDegree(this.tableRows[i].input.value, randomPrimaryColorsHueDegree)
-                this.tableRows[i].input.value = ColorModifiers.shiftColorSaturationByDegree(this.tableRows[i].input.value, randomPrimaryColorsSaturation)
                 this.tableRows[i].input.value = ColorModifiers.shiftColorBrightnessByDegree(this.tableRows[i].input.value, randomPrimaryColorsBrightness)
+                this.tableRows[i].input.value = ColorModifiers.shiftColorSaturationByDegree(this.tableRows[i].input.value, randomPrimaryColorsSaturation)
+                this.tableRows[i].input.value = ColorModifiers.shiftColorHueByDegree(this.tableRows[i].input.value, randomPrimaryColorsHueDegree)
             }
         }
         this.saveCurrentColors()
+
+        let randomUniform = Math.random() * 6;
+        if (randomUniform < 4) {
+            this.uniformPrimaryColorsHues()
+            this.uniformSecondaryColorsHues()
+        }
         this.draw()
     }
 
@@ -321,7 +319,7 @@ class Creature {
 
         this.ctx.fillStyle = this.backgroundColor;
         this.ctx.beginPath(); // Start a new path
-        this.ctx.rect(0, 0, 420, 420); // Add a rectangle to the current path
+        this.ctx.rect(0, 0, 500, 500); // Add a rectangle to the current path
         this.ctx.fill(); // Render the path
 
         for (let y = 0; y < currentImageOfKirby.length; y++) {
