@@ -253,14 +253,14 @@ class Creature {
         } else if (randomReset < 7) {
             this.resetSecondaryColorsToDefault()
         }
-    
+
 
         let randomSecondaryColorsHueDegree = Math.random() * 360;
         let randomPrimaryColorsHueDegree = Math.random() * 360;
         let randomSecondaryColorsSaturation = Math.random() * 1.2 - .6;
         let randomPrimaryColorsSaturation = Math.random() * 1.2 - .5;
-        let randomSecondaryColorsBrightness = Math.random() * .6 - .5;
         let randomPrimaryColorsBrightness = Math.random() * .5 - .4;
+        let randomSecondaryColorsBrightness = Math.min(Math.random() * .6 - .5, randomPrimaryColorsBrightness);
 
         for (let i = 0; i < this.tableRows.length; i++) {
             if (this.isSecondaryColor(i)) {
@@ -275,10 +275,15 @@ class Creature {
         }
         this.saveCurrentColors()
 
-        let randomUniform = Math.random() * 6;
-        if (randomUniform < 4) {
-            this.uniformPrimaryColorsHues()
-            this.uniformSecondaryColorsHues()
+        let randomUniform = Math.random() * 10;
+        if (this.tableRows.length === 15 && randomUniform < 9) {
+            this.tableRows[1].input.value = ColorModifiers.shiftColorSaturationByDegree(ColorModifiers.shiftColorBrightnessByDegree(this.tableRows[13].input.value, Math.random() * .3 - .05), Math.random() * .3 - .05)
+            if (randomUniform < 3) {
+                this.uniformPrimaryColorsHues()
+            } else if (randomUniform < 6) {
+                this.tableRows[1].input.value = ColorModifiers.setHueFromColor(this.tableRows[13].input.value, this.tableRows[1].input.value)
+            }
+            this.saveCurrentColors()
         }
         this.draw()
     }
@@ -367,7 +372,7 @@ class Creature {
             this.draw();
             if (this.gifFrame >= 0) {
                 this.gifFrame++;
-                if (this.gifFrame >= this.animationImages.length + 1 ) {
+                if (this.gifFrame >= this.animationImages.length + 1) {
                     this.saveGifHelper();
                 }
             }
