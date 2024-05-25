@@ -328,7 +328,7 @@ class Creature {
 
                 this.ctx.fillStyle = color;
                 this.ctx.beginPath(); // Start a new path
-                this.ctx.rect(x * this.pixelSize, y * this.pixelSize, this.pixelSize, this.pixelSize); // Add a rectangle to the current path
+                this.ctx.rect(x * this.pixelSize + 20, y * this.pixelSize + 20, this.pixelSize, this.pixelSize); // Add a rectangle to the current path
                 this.ctx.fill(); // Render the path
             }
         }
@@ -367,7 +367,7 @@ class Creature {
             this.draw();
             if (this.gifFrame >= 0) {
                 this.gifFrame++;
-                if (this.gifFrame >= this.animationImages.length ) {
+                if (this.gifFrame >= this.animationImages.length + 1 ) {
                     this.saveGifHelper();
                 }
             }
