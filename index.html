@@ -4,40 +4,40 @@
 <head>
     <link rel="stylesheet" href="style.css">
     <script src="index.js"></script>
+    <script src="Creature.js"></script>
+    <script src="kirbyData.js"></script>
+    <script src="ColorModifiers.js"></script>
 </head>
 
 <body>
     <div class="container">
         <div class="row container">
             <div class="container">
-                <canvas id="canvas" height="380" width="420"></canvas>
-
-
+                <canvas id="canvasKirby" height="380" width="420"></canvas>
             </div>
-            <table id="table">
+            <table id="tableKirby">
             </table>
             <div class="container">
                 </br>
                 <span>Click Kirby to pause/continue animation</span>
-                <label for="pixelSizeSlider">Change Kirby Size:</label>
-                <input id="pixelSizeSlider" type="range" min="1" max="20" value="20" />
+                <label for="pixelSizeSliderKirby">Change Kirby Size:</label>
+                <input id="pixelSizeSliderKirby" type="range" min="1" max="20" value="10" />
                 <div class="container row">
 
-                    <button onclick="saveGif()">Save as video (webm)</button>
+                    <button id="saveGifKirby">Save as video (webm)</button>
                     <span>(you can create a gif from a webm with a
                         convertor)</span>
                 </div>
-                <textarea id="textarea" disabled="true" rows="16" value=""></textarea>
+                <textarea id="textareaKirby" disabled="true" rows="16" value=""></textarea>
             </div>
 
         </div>
         <div>
-            <button onclick="randomizeKirbyColors()">Randomize Kirby Colors</button>
-            <button onclick="uniformFeetHues()">Uniform Secondary Hue</button>
-            <button onclick="uniformBodyHues()">Uniform Primary Hue</button>
-            <button onclick="choasButton()">reverse something</button>
-            <button onclick="foreheadFix()">fix forehead color</button>
-            <button onclick="randomizeKirbyEverything()">???</button>
+            <button id="randomizeKirbyEverything">Randomize Colors</button>
+            <button id="randomizeKirbyColors">Randomize Hues</button>
+            <button id="uniformFeetHues">Uniform Secondary Hue</button>
+            <button id="uniformBodyHues">Uniform Primary Hue</button>
+            <button id="chaosKirbyButton">reverse something</button>
 
             <table>
                 <tr>
@@ -48,33 +48,34 @@
                 </tr>
                 <tr>
                     <td>Hue Sliders:</td>
-                    <td><input id="bodySlider" type="range" min="0" max="360" /></td>
-                    <td><input id="feetSlider" type="range" min="0" max="360" /></td>
-                    <td><input id="hueSlider" type="range" min="0" max="360" /></td>
+                    <td><input id="primaryColorsSliderKirby" type="range" min="0" max="360" /></td>
+                    <td><input id="secondaryColorsSliderKirby" type="range" min="0" max="360" /></td>
+                    <td><input id="hueSliderKirby" type="range" min="0" max="360" /></td>
                 </tr>
                 <tr>
                     <td>Saturation Sliders:</td>
-                    <td><input id="saturationBodySlider" type="range" min="-1" max="1" step=".01" /></td>
-                    <td><input id="saturationFeetSlider" type="range" min="-1" max="1" step=".01" /></td>
-                    <td><input id="saturationSlider" type="range" min="-1" max="1" step=".01" /></td>
+                    <td><input id="saturationPrimaryColorsSliderKirby" type="range" min="-1" max="1" step=".01" /></td>
+                    <td><input id="saturationSecondaryColorsSliderKirby" type="range" min="-1" max="1" step=".01" /></td>
+                    <td><input id="saturationSliderKirby" type="range" min="-1" max="1" step=".01" /></td>
                 </tr>
                 <tr>
                     <td>Brightness Sliders:</td>
-                    <td><input id="brightnessBodySlider" type="range" min="-1" max="1" step=".01" /></td>
-                    <td><input id="brightnessFeetSlider" type="range" min="-1" max="1" step=".01" /></td>
-                    <td><input id="brightnessSlider" type="range" min="-1" max="1" step=".01" /></td>
+                    <td><input id="brightnessPrimaryColorsSliderKirby" type="range" min="-1" max="1" step=".01" /></td>
+                    <td><input id="brightnessSecondaryColorsSliderKirby" type="range" min="-1" max="1" step=".01" /></td>
+                    <td><input id="brightnessSliderKirby" type="range" min="-1" max="1" step=".01" /></td>
                 </tr>
                 <tr>
                     <td>Reset Colors:</td>
-                    <td><button onclick="resetKirbyBodyColors()">Reset Primary Colors</button></td>
-                    <td><button onclick="resetKirbyFeetColors()">Reset Secondary Colors</button></td>
-                    <td><button onclick="resetKirbyColors()">Reset All Colors</button></td>
+                    <td><button id="resetKirbyBodyColors">Reset Primary Colors</button></td>
+                    <td><button id="resetKirbyFeetColors">Reset Secondary Colors</button></td>
+                    <td><button id="resetKirbyColors">Reset All Colors</button></td>
                 </tr>
             </table>
 
 
         </div>
     </div>
+    
 </body>
 
 </html>
