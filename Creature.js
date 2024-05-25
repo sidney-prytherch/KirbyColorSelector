@@ -1,6 +1,6 @@
 class Creature {
 
-    constructor(animationImages, colorObjects, defaultColors, canvas, context, primaryColorIndices, tableRows, yamlKey, backgroundColor, textarea) {
+    constructor(animationImages, colorObjects, defaultColors, canvas, context, primaryColorIndices, tableRows, yamlKey, backgroundColor, textarea, resetSliders) {
         this.animationMSPerFrame = 100;
         this.colorObjects = colorObjects;
         this.canvas = canvas;
@@ -20,6 +20,7 @@ class Creature {
         this.mediaRecorder = null;
         this.recordedChunks = null;
         this.gifFrame = -1;
+        this.resetSliders = resetSliders;
 
         // this.startAnimation();
     }
@@ -33,6 +34,7 @@ class Creature {
         for (let i = 0; i < this.tableRows.length; i++) {
             this.currentColors[i] = this.tableRows[i].input.value
         }
+        this.resetSliders();
     }
 
     setAllColorsRelativeHue(newHueInt) {

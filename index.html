@@ -21,7 +21,7 @@
                 </br>
                 <span>Click Kirby to pause/continue animation</span>
                 <label for="pixelSizeSliderKirby">Change Kirby Size:</label>
-                <input id="pixelSizeSliderKirby" type="range" min="1" max="20" value="10" />
+                <input class="slider" id="pixelSizeSliderKirby" type="range" min="1" max="20" value="10" />
                 <div class="container row">
 
                     <button id="saveGifKirby">Save as video (webm)</button>
@@ -35,8 +35,8 @@
         <div>
             <button id="randomizeKirbyEverything">Randomize Colors</button>
             <button id="randomizeKirbyColors">Randomize Hues</button>
-            <button id="uniformFeetHues">Uniform Secondary Hue</button>
             <button id="uniformBodyHues">Uniform Primary Hue</button>
+            <button id="uniformFeetHues">Uniform Secondary Hue</button>
             <button id="chaosKirbyButton">reverse something</button>
 
             <table>
@@ -48,21 +48,21 @@
                 </tr>
                 <tr>
                     <td>Hue Sliders:</td>
-                    <td><input id="primaryColorsSliderKirby" type="range" min="0" max="360" /></td>
-                    <td><input id="secondaryColorsSliderKirby" type="range" min="0" max="360" /></td>
-                    <td><input id="hueSliderKirby" type="range" min="0" max="360" /></td>
+                    <td><input class="slider slider-hue" id="primaryColorsSliderKirby" type="range" min="-180" max="180" /></td>
+                    <td><input class="slider slider-hue" id="secondaryColorsSliderKirby" type="range" min="-180" max="180" /></td>
+                    <td><input class="slider slider-hue" id="hueSliderKirby" type="range" min="-180" max="180" /></td>
                 </tr>
                 <tr>
                     <td>Saturation Sliders:</td>
-                    <td><input id="saturationPrimaryColorsSliderKirby" type="range" min="-1" max="1" step=".01" /></td>
-                    <td><input id="saturationSecondaryColorsSliderKirby" type="range" min="-1" max="1" step=".01" /></td>
-                    <td><input id="saturationSliderKirby" type="range" min="-1" max="1" step=".01" /></td>
+                    <td><input class="slider slider-saturation" id="saturationPrimaryColorsSliderKirby" type="range" min="-1" max="1" step=".01" /></td>
+                    <td><input class="slider slider-saturation" id="saturationSecondaryColorsSliderKirby" type="range" min="-1" max="1" step=".01" /></td>
+                    <td><input class="slider slider-saturation" id="saturationSliderKirby" type="range" min="-1" max="1" step=".01" /></td>
                 </tr>
                 <tr>
                     <td>Brightness Sliders:</td>
-                    <td><input id="brightnessPrimaryColorsSliderKirby" type="range" min="-1" max="1" step=".01" /></td>
-                    <td><input id="brightnessSecondaryColorsSliderKirby" type="range" min="-1" max="1" step=".01" /></td>
-                    <td><input id="brightnessSliderKirby" type="range" min="-1" max="1" step=".01" /></td>
+                    <td><input class="slider slider-brightness" id="brightnessPrimaryColorsSliderKirby" type="range" min="-1" max="1" step=".01" /></td>
+                    <td><input class="slider slider-brightness" id="brightnessSecondaryColorsSliderKirby" type="range" min="-1" max="1" step=".01" /></td>
+                    <td><input class="slider slider-brightness" id="brightnessSliderKirby" type="range" min="-1" max="1" step=".01" /></td>
                 </tr>
                 <tr>
                     <td>Reset Colors:</td>

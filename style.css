@@ -39,8 +39,8 @@ input[type="range"] {
 }
 
 button {
-    background-color: rgb(151, 219, 255);
-    border: 3px solid rgb(39, 179, 255);
+    background-color: #fdcace88;
+    border: 3px solid #661e2a88;
     padding: 8px;
     margin: 8px;
     border-radius: 4px;
@@ -51,7 +51,59 @@ button {
     cursor: pointer;
 }
 
+button:hover {
+    background-color: #fdcaceff;
+    border: 3px solid #661e2aff;
+}
+
 span {
     display: flex;
     justify-content: center
 }
+
+.slider {
+    -webkit-appearance: none;
+    height: 4px;
+    background: rgb(179, 179, 179);
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    margin:8px;
+    border-radius: 4px;
+  }
+
+  .slider-hue {
+    background: linear-gradient(180deg, #6e40aa, #be3caf, #fe4b83, #ff7747, #e3b62f, #b0ef5a, #53f666, #1edfa2, #23acd8, #4c6fdc, #4c6fdc);
+
+  }
+
+  .slider-saturation {
+    background: linear-gradient(90deg, #888, #ff2929);
+  }
+
+  .slider-brightness {
+    background: linear-gradient(90deg, #000, #fff);
+  }
+  
+  .slider:hover {
+    opacity: 1;
+  }
+  
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 30px;
+    height: 30px;
+    border: 0;
+    background: url('kirby-icon.png');
+    cursor: pointer;
+  }
+  
+  .slider::-moz-range-thumb {
+    width: 30px;
+    height: 30px;
+    border: 0;
+    background: url('kirby-icon.png');
+    cursor: pointer;
+  }

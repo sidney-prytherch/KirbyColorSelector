@@ -46,6 +46,18 @@ function loadValues() {
     let resetKirbyColorsButton = document.getElementById("resetKirbyColors");
     let saveGifKirbyButton = document.getElementById("saveGifKirby");
 
+    let resetSliders = () => {
+        hueSlider.value = 0;
+        secondaryColorsSlider.value = 0;
+        primaryColorsSlider.value = 0;
+        saturationSlider.value = 0;
+        saturationSecondaryColorsSlider.value = 0;
+        saturationPrimaryColorsSlider.value = 0;
+        brightnessSlider.value = 0;
+        brightnessSecondaryColorsSlider.value = 0;
+        brightnessPrimaryColorsSlider.value = 0;
+    }
+
 
     let kirbyColors = [];
     let defaultKirbyColors = [];
@@ -109,7 +121,7 @@ function loadValues() {
     // console.log("specialHueFixIndices", specialHueFixIndices);
     // console.log("textarea", textarea);
 
-    let kirby = new Creature(kirbyImages, kirbyColors, defaultKirbyColors, canvas, ctx, primaryColorIndices, kirbyTableRows, 'kirby_flavor', "#d6eaf2", textarea);
+    let kirby = new Creature(kirbyImages, kirbyColors, defaultKirbyColors, canvas, ctx, primaryColorIndices, kirbyTableRows, 'kirby_flavor', "#d6eaf2", textarea, resetSliders);
 
     for (let i = 0; i < kirbyTableRows.length; i++) {
         kirbyTableRows[i].input.addEventListener("input", () => { kirby.draw() });
@@ -152,6 +164,10 @@ function loadValues() {
     resetKirbyColorsButton.addEventListener("click", () => { kirby.resetAllColorsToDefault() });
 
     saveGifKirbyButton.addEventListener("click", () => { kirby.saveGif(maxPixelSize) })
+
+    
+
+    resetSliders();
 
     kirby.changeAnimation();
     // canvas.addEventListener("click", () => {console.log(kirby, kirbyColors)})
