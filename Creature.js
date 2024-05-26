@@ -1,6 +1,6 @@
 class Creature {
 
-    constructor(animationImages, colorObjects, defaultColors, canvas, context, primaryColorIndices, tableRows, yamlKey, backgroundColor, textarea, resetSliders) {
+    constructor(animationImages, colorObjects, defaultColors, canvas, context, primaryColorIndices, tableRows, yamlKey, backgroundColor, textarea, resetSliders, randomizationModifiers) {
         this.animationMSPerFrame = 100;
         this.colorObjects = colorObjects;
         this.canvas = canvas;
@@ -21,6 +21,7 @@ class Creature {
         this.recordedChunks = null;
         this.gifFrame = -1;
         this.resetSliders = resetSliders;
+        this.randomizationModifiers = randomizationModifiers;
 
         // this.startAnimation();
     }
@@ -63,6 +64,16 @@ class Creature {
 
     uniformPrimaryColorsHues() {
         let color = -1;
+        if (this.tableRows.length === 15) {
+            for (let i = 0; i < this.tableRows.length; i++) {
+                if (this.isPrimaryColor(i)) {
+                    if (color == -1) {
+                        color = this.currentColors[i]
+                    }
+                    this.tableRows[i].input.value = ColorModifiers.setHueFromColor(this.tableRows[i].input.value, color);
+                }
+            }
+        } else {
         for (let i = this.tableRows.length - 1; i >= 0; i--) {
             if (this.isPrimaryColor(i)) {
                 if (color == -1) {
@@ -70,7 +81,7 @@ class Creature {
                 }
                 this.tableRows[i].input.value = ColorModifiers.setHueFromColor(this.tableRows[i].input.value, color);
             }
-        }
+        }}
         this.saveCurrentColors()
         this.draw();
     }
@@ -246,21 +257,21 @@ class Creature {
 
     randomizeAllColorQualities() {
         let randomReset = Math.random() * 10;
-        if (randomReset < 5) {
+        if (randomReset < 7) {
             this.resetAllColorsToDefault()
-        } else if (randomReset < 6) {
+        } else if (randomReset < 8) {
             this.resetPrimaryColorsToDefault()
-        } else if (randomReset < 7) {
+        } else if (randomReset < 9) {
             this.resetSecondaryColorsToDefault()
         }
 
 
         let randomSecondaryColorsHueDegree = Math.random() * 360;
         let randomPrimaryColorsHueDegree = Math.random() * 360;
-        let randomSecondaryColorsSaturation = Math.random() * 1.2 - .6;
-        let randomPrimaryColorsSaturation = Math.random() * 1.2 - .5;
-        let randomPrimaryColorsBrightness = Math.random() * .5 - .4;
-        let randomSecondaryColorsBrightness = Math.min(Math.random() * .6 - .5, randomPrimaryColorsBrightness);
+        let randomSecondaryColorsSaturation = Math.random() * this.randomizationModifiers.saturationPrimaryRange + this.randomizationModifiers.saturationPrimaryStart; 
+        let randomPrimaryColorsSaturation = Math.random() * this.randomizationModifiers.saturationSecondaryRange + this.randomizationModifiers.saturationSecondaryStart;
+        let randomPrimaryColorsBrightness = Math.random() * this.randomizationModifiers.brightnessPrimaryRange + this.randomizationModifiers.brightnessPrimaryStart;
+        let randomSecondaryColorsBrightness = Math.min(Math.random() * this.randomizationModifiers.brightnessSecondaryRange + this.randomizationModifiers.brightnessSecondaryStart, randomPrimaryColorsBrightness);
 
         for (let i = 0; i < this.tableRows.length; i++) {
             if (this.isSecondaryColor(i)) {
@@ -282,6 +293,15 @@ class Creature {
                 this.uniformPrimaryColorsHues()
             } else if (randomUniform < 6) {
                 this.tableRows[1].input.value = ColorModifiers.setHueFromColor(this.tableRows[13].input.value, this.tableRows[1].input.value)
+            }
+            this.saveCurrentColors()
+        }
+        if (this.tableRows.length === 9 && randomUniform < 9) {
+            this.tableRows[0].input.value = ColorModifiers.shiftColorSaturationByDegree(ColorModifiers.shiftColorBrightnessByDegree(this.tableRows[1].input.value, Math.random() * .15 - .18), Math.random() * .25 - .28)
+            if (randomUniform < 3) {
+                this.uniformPrimaryColorsHues()
+            } else if (randomUniform < 8) {
+                this.tableRows[0].input.value = ColorModifiers.setHueFromColor(this.tableRows[1].input.value, this.tableRows[0].input.value)
             }
             this.saveCurrentColors()
         }
@@ -342,12 +362,13 @@ class Creature {
     updateColorTableDisplay() {
         for (let i = 0; i < this.tableRows.length; i++) {
             this.colorObjects[i].color = this.tableRows[i].input.value;
-            this.tableRows[i].span.innerHTML = `${this.tableRows[i].number}: ${this.tableRows[i].input.value}`;
+            this.tableRows[i].span.innerHTML = `${i + 1}: ${this.tableRows[i].input.value}`;
         }
 
         let string = `  ${this.yamlKey}:`
-        for (let i = this.tableRows.length - 1; i >= 0; i--) {
-            string += `\n    '${this.tableRows[i].number}': '${this.tableRows[i].input.value.replace("#", "")}'`
+        // for (let i = this.tableRows.length - 1; i >= 0; i--) {
+            for (let i = 0; i < this.tableRows.length; i++) {
+            string += `\n    '${i + 1}': '${this.tableRows[i].input.value.replace("#", "")}'`
         }
         this.textarea.value = string;
     }
@@ -372,6 +393,7 @@ class Creature {
             this.draw();
             if (this.gifFrame >= 0) {
                 this.gifFrame++;
+                console.log(this.gifFrame);
                 if (this.gifFrame >= this.animationImages.length + 1) {
                     this.saveGifHelper();
                 }
@@ -408,7 +430,7 @@ class Creature {
         if (this.gifFrame === -1) {
             console.log("start")
             this.gifFrame = 0;
-            const stream = canvas.captureStream(this.animationMSPerFrame);
+            const stream = this.canvas.captureStream(this.animationMSPerFrame);
             this.mediaRecorder = new MediaRecorder(stream, {
                 mimeType: 'video/webm;codecs=vp9',
                 ignoreMutedMedia: true

@@ -82,6 +82,10 @@ span {
     background: linear-gradient(90deg, #888, #ff2929);
   }
 
+  .slider-saturation-gooey {
+    background: linear-gradient(90deg, #888, #2d29ff);
+  }
+
   .slider-brightness {
     background: linear-gradient(90deg, #000, #fff);
   }
@@ -106,4 +110,28 @@ span {
     border: 0;
     background: url('kirby-icon.png');
     cursor: pointer;
+  }
+
+
+  .gooey-button {
+    background-color: #13248ebb;
+    border: 3px solid #132438bb;
+    color:white;
+
+  }
+
+
+  .gooey-button:hover {
+    background-color: #13248eff;
+    border: 3px solid #132438ff;
+    color:white;
+
+  }
+
+  .gooey-slider::-webkit-slider-thumb {
+    background: url('gooey-icon.png');
+  }
+  
+  .gooey-slider::-moz-range-thumb {
+    background: url('gooey-icon.png');
   }

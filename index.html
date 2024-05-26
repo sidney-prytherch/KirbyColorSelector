@@ -8,11 +8,12 @@
     <script src="index.js"></script>
     <script src="Creature.js"></script>
     <script src="kirbyData.js"></script>
+    <script src="GooeyData.js"></script>
     <script src="ColorModifiers.js"></script>
 </head>
 
 <body>
-    <div class="container">
+    <div class="container kirby">
         <div class="row container">
             <div class="container">
                 <canvas id="canvasKirby" height="420" width="460"></canvas>
@@ -31,8 +32,9 @@
                         convertor)</span>
                 </div>
                 <textarea id="textareaKirby" disabled="true" rows="16" value=""></textarea>
-                <p><em>Make sure you also set kirby_flavor_preset to custom!</em></p>
+                <p><em><b>Make sure you also set kirby_flavor_preset to custom</b></em></p>
                 <p>You can run this webpage locally/offline by downloading the project from <a href="https://github.com/sidney-prytherch/KirbyColorSelector">github.com/sidney-prytherch/KirbyColorSelector</a></p>
+
             </div>
 
         </div>
@@ -41,7 +43,7 @@
             <button id="randomizeKirbyColors">Randomize Hues</button>
             <button id="uniformBodyHues">Uniform Primary Hue</button>
             <button id="uniformFeetHues">Uniform Secondary Hue</button>
-            <button id="chaosKirbyButton">reverse something</button>
+            <button id="chaosKirbyButton">Reverse something</button>
 
             <table>
                 <tr>
@@ -73,6 +75,72 @@
                     <td><button id="resetKirbyBodyColors">Reset Primary Colors</button></td>
                     <td><button id="resetKirbyFeetColors">Reset Secondary Colors</button></td>
                     <td><button id="resetKirbyColors">Reset All Colors</button></td>
+                </tr>
+            </table>
+
+
+        </div>
+    </div>
+    <div class="container gooey">
+        <div class="row container">
+            <div class="container">
+                <canvas id="canvasGooey" height="260" width="510"></canvas>
+            </div>
+            <table id="tableGooey">
+            </table>
+            <div class="container">
+                </br>
+                <span>Click Gooey to pause/continue animation</span>
+                <label for="pixelSizeSliderGooey">Change Gooey Size:</label>
+                <input class="slider gooey-slider" id="pixelSizeSliderGooey" type="range" min="1" max="10" value="10" />
+                <div class="container row">
+
+                    <button class="gooey-button" id="saveGifGooey">Save as video (webm)</button>
+                    <span>(you can create a gif from a webm with a
+                        convertor)</span>
+                </div>
+                <textarea id="textareaGooey" disabled="true" rows="16" value=""></textarea>
+                <p><em><b>Make sure you also set gooey_flavor_preset to custom</b></em></p>
+            </div>
+
+        </div>
+        <div>
+            <button class="gooey-button" id="randomizeGooeyEverything">Randomize Colors</button>
+            <button class="gooey-button" id="randomizeGooeyColors">Randomize Hues</button>
+            <button class="gooey-button" id="uniformBodyHuesGooey">Uniform Primary Hue</button>
+            <button class="gooey-button" id="uniformFeetHuesGooey">Uniform Secondary Hue</button>
+            <button class="gooey-button" id="chaosGooeyButton">Reverse something</button>
+
+            <table>
+                <tr>
+                    <th></th>
+                    <th>Primary Color (Body)</th>
+                    <th>Secondary Color (Mouth+Eyes)</th>
+                    <th>All Colors</th>
+                </tr>
+                <tr>
+                    <td>Hue Sliders:</td>
+                    <td><input class="slider slider-hue gooey-slider" id="primaryColorsSliderGooey" type="range" min="-180" max="180" /></td>
+                    <td><input class="slider slider-hue gooey-slider" id="secondaryColorsSliderGooey" type="range" min="-180" max="180" /></td>
+                    <td><input class="slider slider-hue gooey-slider" id="hueSliderGooey" type="range" min="-180" max="180" /></td>
+                </tr>
+                <tr>
+                    <td>Saturation Sliders:</td>
+                    <td><input class="slider slider-saturation-gooey gooey-slider" id="saturationPrimaryColorsSliderGooey" type="range" min="-1" max="1" step=".01" /></td>
+                    <td><input class="slider slider-saturation-gooey gooey-slider" id="saturationSecondaryColorsSliderGooey" type="range" min="-1" max="1" step=".01" /></td>
+                    <td><input class="slider slider-saturation-gooey gooey-slider" id="saturationSliderGooey" type="range" min="-1" max="1" step=".01" /></td>
+                </tr>
+                <tr>
+                    <td>Brightness Sliders:</td>
+                    <td><input class="slider slider-brightness gooey-slider" id="brightnessPrimaryColorsSliderGooey" type="range" min="-1" max="1" step=".01" /></td>
+                    <td><input class="slider slider-brightness gooey-slider" id="brightnessSecondaryColorsSliderGooey" type="range" min="-1" max="1" step=".01" /></td>
+                    <td><input class="slider slider-brightness gooey-slider" id="brightnessSliderGooey" type="range" min="-1" max="1" step=".01" /></td>
+                </tr>
+                <tr>
+                    <td>Reset Colors:</td>
+                    <td><button class="gooey-button" id="resetGooeyBodyColors">Reset Primary Colors</button></td>
+                    <td><button class="gooey-button" id="resetGooeyFeetColors">Reset Secondary Colors</button></td>
+                    <td><button class="gooey-button" id="resetGooeyColors">Reset All Colors</button></td>
                 </tr>
             </table>
 

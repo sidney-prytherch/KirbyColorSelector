@@ -104,24 +104,45 @@ let image4 = [
     [null, null, null, null, null, null, null, "#A85048", "#A85048", null, null, null, null, null, null, null, null, null, null, null, null,],
 ];
 
+// let colors = [
+//     "#B03830", //5
+//     "#F8F8F8", //9 body -> 5
+//     "#E87880", //7
+//     "#B08888", //15
+//     "#D0C0C0", //12 body -> 2
+//     "#E85048", //4 
+//     "#E8D0D0", //11 body -> 14
+//     "#A85048", //13
+//     "#D07880", //6
+//     "#F0A0B8", //8 body -> 11
+//     "#E02018", //3
+//     "#A87070", //2
+//     "#C8A0A8", //14
+//     "#F0E0E8", //10 body -> 7
+//     "#B01810", //1
+// ]
+
 let colors = [
-    "#B03830", //5
-    "#F8F8F8", //9 body -> 5
-    "#E87880", //7
-    "#B08888", //15
-    "#D0C0C0", //12 body -> 2
-    "#E85048", //4 
-    "#E8D0D0", //11 body -> 14
-    "#A85048", //13
-    "#D07880", //6
-    "#F0A0B8", //8 body -> 11
-    "#E02018", //3
-    "#A87070", //2
-    "#C8A0A8", //14
-    "#F0E0E8", //10 body -> 7
     "#B01810", //1
+    "#F0E0E8", //10 body -> 7
+    "#C8A0A8", //14
+    "#A87070", //2
+    "#E02018", //3
+    "#F0A0B8", //8 body -> 11
+    "#D07880", //6
+    "#A85048", //13
+    "#E8D0D0", //11 body -> 14
+    "#E85048", //4 
+    "#D0C0C0", //12 body -> 2
+    "#B08888", //15
+    "#E87880", //7
+    "#F8F8F8", //9 body -> 5
+    "#B03830", //5
 ]
+
 
 let kirbyImages = [image2, image3, image4, image3, image2, image1, image0, image1];
 
-let primaryColorIndices = [1, 4, 6, 9, 13];
+// let primaryColorIndices = [1, 4, 6, 9, 13];
+// let primaryColorIndices = [14-1, 14-4, 14-6, 14-9, 14-13];
+let primaryColorIndices = [13, 10, 8, 5, 1];
