@@ -434,6 +434,9 @@ class Creature {
         this.ctx.beginPath(); // Start a new path
         this.ctx.rect(0, 0, 500, 500); // Add a rectangle to the current path
         this.ctx.fill(); // Render the path
+        let maxPixelSize = (this.tableRows.length === 15) ? 20 : 10
+
+        let topSpace = 20 + (maxPixelSize - this.pixelSize) * currentImageOfKirby.length
 
         for (let y = 0; y < currentImageOfKirby.length; y++) {
             for (let x = 0; x < currentImageOfKirby[y].length; x++) {
@@ -441,7 +444,7 @@ class Creature {
 
                 this.ctx.fillStyle = color;
                 this.ctx.beginPath(); // Start a new path
-                this.ctx.rect(x * this.pixelSize + 20, y * this.pixelSize + 20, this.pixelSize, this.pixelSize); // Add a rectangle to the current path
+                this.ctx.rect(x * this.pixelSize + 20, y * this.pixelSize + topSpace, this.pixelSize, this.pixelSize); // Add a rectangle to the current path
                 this.ctx.fill(); // Render the path
             }
         }
