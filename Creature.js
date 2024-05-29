@@ -183,6 +183,30 @@ class Creature {
         this.draw()
     }
 
+    randomizePrimaryHues() {
+        let randomRelativePrimaryColorHueDegree = Math.random() * 360;
+
+        for (let i = 0; i < this.tableRows.length; i++) {
+            if (this.isPrimaryColor(i)) {
+                this.tableRows[i].input.value = ColorModifiers.shiftColorHueByDegree(this.tableRows[i].input.value, randomRelativePrimaryColorHueDegree)
+            }
+        }
+        this.saveCurrentColors()
+        this.draw()
+    }
+
+    randomizeSecondaryHues() {
+        let randomRelativeSecondaryColorHueDegree = Math.random() * 360;
+
+        for (let i = 0; i < this.tableRows.length; i++) {
+            if (this.isSecondaryColor(i)) {
+                this.tableRows[i].input.value = ColorModifiers.shiftColorHueByDegree(this.tableRows[i].input.value, randomRelativeSecondaryColorHueDegree)
+            }
+        }
+        this.saveCurrentColors()
+        this.draw()
+    }
+
     reverseSaturationOfPrimaryAndSecondaryColors() {
         for (let i = 0; i < this.tableRows.length; i++) {
             this.tableRows[i].input.value = ColorModifiers.reverseSaturation(this.tableRows[i].input.value)
@@ -307,6 +331,70 @@ class Creature {
         }
         this.draw()
     }
+
+    randomizePrimaryColorQualities() {
+        let randomReset = Math.random() * 10;
+        if (randomReset < 8) {
+            this.resetPrimaryColorsToDefault()
+        }
+
+        let randomPrimaryColorsHueDegree = Math.random() * 360;
+        let randomPrimaryColorsSaturation = Math.random() * this.randomizationModifiers.saturationSecondaryRange + this.randomizationModifiers.saturationSecondaryStart;
+        let randomPrimaryColorsBrightness = Math.random() * this.randomizationModifiers.brightnessPrimaryRange + this.randomizationModifiers.brightnessPrimaryStart;
+
+        for (let i = 0; i < this.tableRows.length; i++) {
+            if (this.isPrimaryColor(i)) {
+                this.tableRows[i].input.value = ColorModifiers.shiftColorBrightnessByDegree(this.tableRows[i].input.value, randomPrimaryColorsBrightness)
+                this.tableRows[i].input.value = ColorModifiers.shiftColorSaturationByDegree(this.tableRows[i].input.value, randomPrimaryColorsSaturation)
+                this.tableRows[i].input.value = ColorModifiers.shiftColorHueByDegree(this.tableRows[i].input.value, randomPrimaryColorsHueDegree)
+            }
+        }
+        this.saveCurrentColors()
+
+        let randomUniform = Math.random() * 10;
+        if (this.tableRows.length === 15 && randomUniform < 9) {
+            this.tableRows[1].input.value = ColorModifiers.shiftColorSaturationByDegree(ColorModifiers.shiftColorBrightnessByDegree(this.tableRows[13].input.value, Math.random() * .3 - .05), Math.random() * .3 - .05)
+            if (randomUniform < 3) {
+                this.uniformPrimaryColorsHues()
+            } else if (randomUniform < 6) {
+                this.tableRows[1].input.value = ColorModifiers.setHueFromColor(this.tableRows[13].input.value, this.tableRows[1].input.value)
+            }
+            this.saveCurrentColors()
+        }
+        if (this.tableRows.length === 9 && randomUniform < 9) {
+            this.tableRows[0].input.value = ColorModifiers.shiftColorSaturationByDegree(ColorModifiers.shiftColorBrightnessByDegree(this.tableRows[1].input.value, Math.random() * .15 - .18), Math.random() * .25 - .28)
+            if (randomUniform < 3) {
+                this.uniformPrimaryColorsHues()
+            } else if (randomUniform < 8) {
+                this.tableRows[0].input.value = ColorModifiers.setHueFromColor(this.tableRows[1].input.value, this.tableRows[0].input.value)
+            }
+            this.saveCurrentColors()
+        }
+        this.draw()
+    }
+
+    randomizeSecondaryColorQualities() {
+        let randomReset = Math.random() * 10;
+        if (randomReset < 8) {
+            this.resetSecondaryColorsToDefault()
+        }
+
+        let randomSecondaryColorsHueDegree = Math.random() * 360;
+        let randomSecondaryColorsSaturation = Math.random() * this.randomizationModifiers.saturationPrimaryRange + this.randomizationModifiers.saturationPrimaryStart; 
+        let randomSecondaryColorsBrightness = Math.random() * this.randomizationModifiers.brightnessSecondaryRange + this.randomizationModifiers.brightnessSecondaryStart;
+
+        for (let i = 0; i < this.tableRows.length; i++) {
+            if (this.isSecondaryColor(i)) {
+                this.tableRows[i].input.value = ColorModifiers.shiftColorBrightnessByDegree(this.tableRows[i].input.value, randomSecondaryColorsBrightness)
+                this.tableRows[i].input.value = ColorModifiers.shiftColorSaturationByDegree(this.tableRows[i].input.value, randomSecondaryColorsSaturation)
+                this.tableRows[i].input.value = ColorModifiers.shiftColorHueByDegree(this.tableRows[i].input.value, randomSecondaryColorsHueDegree)
+            }
+        }
+        this.saveCurrentColors()
+        this.draw()
+    }
+
+    
 
     resetPrimaryColorsToDefault() {
         for (let i = 0; i < this.tableRows.length; i++) {

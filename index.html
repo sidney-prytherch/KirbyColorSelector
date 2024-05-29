@@ -17,6 +17,19 @@
         <div class="row container">
             <div class="container">
                 <canvas id="canvasKirby" height="420" width="460"></canvas>
+                <div class="horizontal container center">
+                    <button class="kirby-special" id="randomizeKirbyEverything">
+                        <h3>Randomize Colors</h3>
+                    </button>
+                    <button class="kirby-special" id="randomizeKirbyColors">
+                        <h3>Randomize Hues</h3>
+                    </button>
+                    <div>
+                        <button id="uniformBodyHues">Uniform Primary Hue</button>
+                        <button id="uniformFeetHues">Uniform Secondary Hue</button>
+                        <button id="chaosKirbyButton">?</button>
+                    </div>
+                </div>
             </div>
             <table id="tableKirby">
             </table>
@@ -33,17 +46,15 @@
                 </div>
                 <textarea id="textareaKirby" disabled="true" rows="16" value=""></textarea>
                 <p><em><b>Make sure you also set kirby_flavor_preset to custom</b></em></p>
-                <p>You can run this webpage locally/offline by downloading the project from <a href="https://github.com/sidney-prytherch/KirbyColorSelector">github.com/sidney-prytherch/KirbyColorSelector</a></p>
+                <p>You can run this webpage locally/offline by downloading the project from <a
+                        href="https://github.com/sidney-prytherch/KirbyColorSelector">github.com/sidney-prytherch/KirbyColorSelector</a>
+                </p>
 
             </div>
 
         </div>
         <div>
-            <button id="randomizeKirbyEverything">Randomize Colors</button>
-            <button id="randomizeKirbyColors">Randomize Hues</button>
-            <button id="uniformBodyHues">Uniform Primary Hue</button>
-            <button id="uniformFeetHues">Uniform Secondary Hue</button>
-            <button id="chaosKirbyButton">Reverse something</button>
+
 
             <table>
                 <tr>
@@ -54,21 +65,41 @@
                 </tr>
                 <tr>
                     <td>Hue Sliders:</td>
-                    <td><input class="slider slider-hue" id="primaryColorsSliderKirby" type="range" min="-180" max="180" /></td>
-                    <td><input class="slider slider-hue" id="secondaryColorsSliderKirby" type="range" min="-180" max="180" /></td>
+                    <td><input class="slider slider-hue" id="primaryColorsSliderKirby" type="range" min="-180"
+                            max="180" /></td>
+                    <td><input class="slider slider-hue" id="secondaryColorsSliderKirby" type="range" min="-180"
+                            max="180" /></td>
                     <td><input class="slider slider-hue" id="hueSliderKirby" type="range" min="-180" max="180" /></td>
                 </tr>
                 <tr>
                     <td>Saturation Sliders:</td>
-                    <td><input class="slider slider-saturation" id="saturationPrimaryColorsSliderKirby" type="range" min="-1" max="1" step=".01" /></td>
-                    <td><input class="slider slider-saturation" id="saturationSecondaryColorsSliderKirby" type="range" min="-1" max="1" step=".01" /></td>
-                    <td><input class="slider slider-saturation" id="saturationSliderKirby" type="range" min="-1" max="1" step=".01" /></td>
+                    <td><input class="slider slider-saturation" id="saturationPrimaryColorsSliderKirby" type="range"
+                            min="-1" max="1" step=".01" /></td>
+                    <td><input class="slider slider-saturation" id="saturationSecondaryColorsSliderKirby" type="range"
+                            min="-1" max="1" step=".01" /></td>
+                    <td><input class="slider slider-saturation" id="saturationSliderKirby" type="range" min="-1" max="1"
+                            step=".01" /></td>
                 </tr>
                 <tr>
                     <td>Brightness Sliders:</td>
-                    <td><input class="slider slider-brightness" id="brightnessPrimaryColorsSliderKirby" type="range" min="-1" max="1" step=".01" /></td>
-                    <td><input class="slider slider-brightness" id="brightnessSecondaryColorsSliderKirby" type="range" min="-1" max="1" step=".01" /></td>
-                    <td><input class="slider slider-brightness" id="brightnessSliderKirby" type="range" min="-1" max="1" step=".01" /></td>
+                    <td><input class="slider slider-brightness" id="brightnessPrimaryColorsSliderKirby" type="range"
+                            min="-1" max="1" step=".01" /></td>
+                    <td><input class="slider slider-brightness" id="brightnessSecondaryColorsSliderKirby" type="range"
+                            min="-1" max="1" step=".01" /></td>
+                    <td><input class="slider slider-brightness" id="brightnessSliderKirby" type="range" min="-1" max="1"
+                            step=".01" /></td>
+                </tr>
+                <tr>
+                    <td>Randomize Colors:</td>
+                    <td><button id="randomizeKirbyBodyColors">Randomize Colors (Primary)</button></td>
+                    <td><button id="randomizeKirbyFeetColors">Randomize Colors (Secondary)</button></td>
+                    <td><button id="randomizeKirbyColorsTable">Randomize All Colors</button></td>
+                </tr>
+                <tr>
+                    <td>Randomize Hues:</td>
+                    <td><button id="randomizeKirbyBodyHues">Randomize Hues (Primary)</button></td>
+                    <td><button id="randomizeKirbyFeetHues">Randomize Hues (Secondary)</button></td>
+                    <td><button id="randomizeKirbyHues">Randomize All Hues</button></td>
                 </tr>
                 <tr>
                     <td>Reset Colors:</td>
@@ -84,7 +115,20 @@
     <div class="container gooey">
         <div class="row container">
             <div class="container">
-                <canvas id="canvasGooey" height="260" width="510"></canvas>
+                <canvas id="canvasGooey" height="260" width="500"></canvas>
+                <div class="horizontal container">
+                    <button class="gooey-button gooey-special" id="randomizeGooeyEverything">
+                        <h3>Randomize Colors</h3>
+                    </button>
+                    <button class="gooey-button gooey-special" id="randomizeGooeyColors">
+                        <h3>Randomize Hues</h3>
+                    </button>
+                    <div>
+                        <button class="gooey-button" id="uniformBodyHuesGooey">Uniform Primary Hue</button>
+                        <button class="gooey-button" id="uniformFeetHuesGooey">Uniform Secondary Hue</button>
+                        <button class="gooey-button" id="chaosGooeyButton">?</button>
+                    </div>
+                </div>
             </div>
             <table id="tableGooey">
             </table>
@@ -105,11 +149,7 @@
 
         </div>
         <div>
-            <button class="gooey-button" id="randomizeGooeyEverything">Randomize Colors</button>
-            <button class="gooey-button" id="randomizeGooeyColors">Randomize Hues</button>
-            <button class="gooey-button" id="uniformBodyHuesGooey">Uniform Primary Hue</button>
-            <button class="gooey-button" id="uniformFeetHuesGooey">Uniform Secondary Hue</button>
-            <button class="gooey-button" id="chaosGooeyButton">Reverse something</button>
+
 
             <table>
                 <tr>
@@ -120,21 +160,45 @@
                 </tr>
                 <tr>
                     <td>Hue Sliders:</td>
-                    <td><input class="slider slider-hue gooey-slider" id="primaryColorsSliderGooey" type="range" min="-180" max="180" /></td>
-                    <td><input class="slider slider-hue gooey-slider" id="secondaryColorsSliderGooey" type="range" min="-180" max="180" /></td>
-                    <td><input class="slider slider-hue gooey-slider" id="hueSliderGooey" type="range" min="-180" max="180" /></td>
+                    <td><input class="slider slider-hue gooey-slider" id="primaryColorsSliderGooey" type="range"
+                            min="-180" max="180" /></td>
+                    <td><input class="slider slider-hue gooey-slider" id="secondaryColorsSliderGooey" type="range"
+                            min="-180" max="180" /></td>
+                    <td><input class="slider slider-hue gooey-slider" id="hueSliderGooey" type="range" min="-180"
+                            max="180" /></td>
                 </tr>
                 <tr>
                     <td>Saturation Sliders:</td>
-                    <td><input class="slider slider-saturation-gooey gooey-slider" id="saturationPrimaryColorsSliderGooey" type="range" min="-1" max="1" step=".01" /></td>
-                    <td><input class="slider slider-saturation-gooey gooey-slider" id="saturationSecondaryColorsSliderGooey" type="range" min="-1" max="1" step=".01" /></td>
-                    <td><input class="slider slider-saturation-gooey gooey-slider" id="saturationSliderGooey" type="range" min="-1" max="1" step=".01" /></td>
+                    <td><input class="slider slider-saturation-gooey gooey-slider"
+                            id="saturationPrimaryColorsSliderGooey" type="range" min="-1" max="1" step=".01" /></td>
+                    <td><input class="slider slider-saturation-gooey gooey-slider"
+                            id="saturationSecondaryColorsSliderGooey" type="range" min="-1" max="1" step=".01" /></td>
+                    <td><input class="slider slider-saturation-gooey gooey-slider" id="saturationSliderGooey"
+                            type="range" min="-1" max="1" step=".01" /></td>
                 </tr>
                 <tr>
                     <td>Brightness Sliders:</td>
-                    <td><input class="slider slider-brightness gooey-slider" id="brightnessPrimaryColorsSliderGooey" type="range" min="-1" max="1" step=".01" /></td>
-                    <td><input class="slider slider-brightness gooey-slider" id="brightnessSecondaryColorsSliderGooey" type="range" min="-1" max="1" step=".01" /></td>
-                    <td><input class="slider slider-brightness gooey-slider" id="brightnessSliderGooey" type="range" min="-1" max="1" step=".01" /></td>
+                    <td><input class="slider slider-brightness gooey-slider" id="brightnessPrimaryColorsSliderGooey"
+                            type="range" min="-1" max="1" step=".01" /></td>
+                    <td><input class="slider slider-brightness gooey-slider" id="brightnessSecondaryColorsSliderGooey"
+                            type="range" min="-1" max="1" step=".01" /></td>
+                    <td><input class="slider slider-brightness gooey-slider" id="brightnessSliderGooey" type="range"
+                            min="-1" max="1" step=".01" /></td>
+                </tr>
+                <tr>
+                    <td>Randomize Colors:</td>
+                    <td><button class="gooey-button" id="randomizeGooeyBodyColors">Randomize Colors (Primary)</button>
+                    </td>
+                    <td><button class="gooey-button" id="randomizeGooeyFeetColors">Randomize Colors (Secondary)</button>
+                    </td>
+                    <td><button class="gooey-button" id="randomizeGooeyColorsTable">Randomize All Colors</button></td>
+                </tr>
+                <tr>
+                    <td>Randomize Hues:</td>
+                    <td><button class="gooey-button" id="randomizeGooeyBodyHues">Randomize Hues (Primary)</button></td>
+                    <td><button class="gooey-button" id="randomizeGooeyFeetHues">Randomize Hues (Secondary)</button>
+                    </td>
+                    <td><button class="gooey-button" id="randomizeGooeyHues">Randomize All Hues</button></td>
                 </tr>
                 <tr>
                     <td>Reset Colors:</td>
@@ -147,7 +211,7 @@
 
         </div>
     </div>
-    
+
 </body>
 
 </html>

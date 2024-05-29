@@ -15,6 +15,7 @@ body {
     display: flex;
     flex-direction: column;
     width: 100%;
+    justify-content: space-evenly;
 }
 
 .row {
@@ -23,6 +24,7 @@ body {
 
 table {
     min-width: 200px;
+    width: 100%;
 }
 
 table, tr, td, input[type="color"] {
@@ -31,24 +33,53 @@ table, tr, td, input[type="color"] {
 }
 
 td button {
-    width: 100%;
+    width: 90%;
+}
+
+td {
+  text-align: center;
 }
 
 input[type="range"] {
     min-width: 200px;
+    width: 90%;
+    text-align: center;
+}
+
+.center {
+  text-align: center;
+  justify-content: center;
+}
+
+canvas {
+  border: 5px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  margin: 8px;
+}
+
+.horizontal {
+  text-align: center;
+}
+
+.kirby-special {
+  width: 480px;
+}
+
+.gooey-special {
+  width: 520px;
 }
 
 button {
     background-color: #fdcace88;
     border: 3px solid #661e2a88;
     padding: 8px;
-    margin: 8px;
     border-radius: 4px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
     cursor: pointer;
+    margin: 8px 0 !important;
 }
 
 button:hover {

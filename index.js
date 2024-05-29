@@ -32,6 +32,13 @@ function loadValues() {
     let resetKirbyColorsButton = document.getElementById("resetKirbyColors");
     let saveGifKirbyButton = document.getElementById("saveGifKirby");
 
+    let randomizeKirbyBodyColorsButton = document.getElementById("randomizeKirbyBodyColors");
+    let randomizeKirbyFeetColorsButton = document.getElementById("randomizeKirbyFeetColors");
+    let randomizeKirbyColorsTableButton = document.getElementById("randomizeKirbyColorsTable");
+    let randomizeKirbyBodyHuesButton = document.getElementById("randomizeKirbyBodyHues");
+    let randomizeKirbyFeetHuesButton = document.getElementById("randomizeKirbyFeetHues");
+    let randomizeKirbyHuesButton = document.getElementById("randomizeKirbyHues");
+
     //gooey stuff:
     let canvasGooey = document.getElementById("canvasGooey")
     let ctxGooey = canvasGooey.getContext("2d");
@@ -57,6 +64,13 @@ function loadValues() {
     let resetGooeyFeetColorsButton = document.getElementById("resetGooeyFeetColors");
     let resetGooeyColorsButton = document.getElementById("resetGooeyColors");
     let saveGifGooeyButton = document.getElementById("saveGifGooey");
+
+    let randomizeGooeyBodyColorsButton = document.getElementById("randomizeGooeyBodyColors");
+    let randomizeGooeyFeetColorsButton = document.getElementById("randomizeGooeyFeetColors");
+    let randomizeGooeyColorsTableButton = document.getElementById("randomizeGooeyColorsTable");
+    let randomizeGooeyBodyHuesButton = document.getElementById("randomizeGooeyBodyHues");
+    let randomizeGooeyFeetHuesButton = document.getElementById("randomizeGooeyFeetHues");
+    let randomizeGooeyHuesButton = document.getElementById("randomizeGooeyHues");
 
     let resetSliders = () => {
         hueSlider.value = 0;
@@ -86,10 +100,10 @@ function loadValues() {
         saturationPrimaryStart: -.75,
         saturationSecondaryRange: 1.1, 
         saturationSecondaryStart: -.8,
-        brightnessPrimaryRange: .5, 
-        brightnessPrimaryStart: 0,
-        brightnessSecondaryRange: .6, 
-        brightnessSecondaryStart: -.3,
+        brightnessPrimaryRange: .6, 
+        brightnessPrimaryStart: -.1,
+        brightnessSecondaryRange: .7,
+        brightnessSecondaryStart: -.4,
     }
 
     let resetSlidersGooey = () => {
@@ -201,6 +215,13 @@ function loadValues() {
     resetKirbyColorsButton.addEventListener("click", () => { kirby.resetAllColorsToDefault() });
 
     saveGifKirbyButton.addEventListener("click", () => { kirby.saveGif(maxPixelSize) })
+
+    randomizeKirbyBodyColorsButton.addEventListener("click", () => {kirby.randomizePrimaryColorQualities()});
+    randomizeKirbyFeetColorsButton.addEventListener("click", () => {kirby.randomizeSecondaryColorQualities()});
+    randomizeKirbyColorsTableButton.addEventListener("click", () => {kirby.randomizeAllColorQualities()});
+    randomizeKirbyBodyHuesButton.addEventListener("click", () => {kirby.randomizePrimaryHues()});
+    randomizeKirbyFeetHuesButton.addEventListener("click", () => {kirby.randomizeSecondaryHues()});
+    randomizeKirbyHuesButton.addEventListener("click", () => {kirby.randomizeColors()});
 
     
 
@@ -317,6 +338,14 @@ function loadValues() {
     resetGooeyColorsButton.addEventListener("click", () => { gooey.resetAllColorsToDefault() });
 
     saveGifGooeyButton.addEventListener("click", () => { gooey.saveGif(10) })
+
+    randomizeGooeyBodyColorsButton.addEventListener("click", () => {gooey.randomizePrimaryColorQualities()});
+    randomizeGooeyFeetColorsButton.addEventListener("click", () => {gooey.randomizeSecondaryColorQualities()});
+    randomizeGooeyColorsTableButton.addEventListener("click", () => {gooey.randomizeAllColorQualities()});
+    randomizeGooeyBodyHuesButton.addEventListener("click", () => {gooey.randomizePrimaryHues()});
+    randomizeGooeyFeetHuesButton.addEventListener("click", () => {gooey.randomizeSecondaryHues()});
+    randomizeGooeyHuesButton.addEventListener("click", () => {gooey.randomizeColors()});
+
 
     
 
