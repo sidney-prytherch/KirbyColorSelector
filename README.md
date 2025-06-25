@@ -8,4 +8,6 @@ To run offline/local, simply download the code and open index.html in a browser
 
 If you run into any issues, want me to update something, or you find that the site is outdated in some way, feel free to send an email to me at sidneyprytherch@gmail.com
 
+Also, feel free to fork and repurpose for your own means!
+
 Thanks! :)
