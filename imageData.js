@@ -323,8 +323,23 @@ let characters = [
         ],
         animations: [
             {
-                animationName: "Walking",
+                animationName: "Walk",
                 animationImages: [kirby_walk_03, kirby_walk_04, kirby_walk_05, kirby_walk_04, kirby_walk_03, kirby_walk_02, kirby_walk_01, kirby_walk_02],
+                animationSeconds: 1
+            },
+            {
+                animationName: "Fly",
+                animationImages: [kirbyFly0, kirbyFly1, kirbyFly2, kirbyFly3, kirbyFly4],
+                animationSeconds: .6
+            },
+            {
+                animationName: "Swim",
+                animationImages: [kirbySwim0, kirbySwim1, kirbySwim2, kirbySwim3, kirbySwim4, kirbySwim5, kirbySwim6, kirbySwim7],
+                animationSeconds: .9
+            },
+            {
+                animationName: "Run",
+                animationImages: [kirbyRun0, kirbyRun1, kirbyRun2, kirbyRun3, kirbyRun4, kirbyRun3, kirbyRun2, kirbyRun1],
                 animationSeconds: 1
             }
         ],
