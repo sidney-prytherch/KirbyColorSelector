@@ -1,39 +1,58 @@
+:root {
+  --background: #d6eaf2;
+  --buttonGroupARGB: 253, 202, 206;
+  /** as RGB values instead of hex - so that the color can have a calculated transparent */
+  --buttonGroupBRGB: 102, 30, 42;
+
+  --buttonFontColor: white;
+
+  /** calculated these from values above */
+  --buttonGroupA: rgba(var(--buttonGroupARGB), 1);
+  --buttonGroupB: rgba(var(--buttonGroupBRGB), 1);
+  --buttonGroupASemiTransparent: rgba(var(--buttonGroupARGB), 0.76);
+  --buttonGroupBSemiTransparent: rgba(var(--buttonGroupBRGB), 0.76);
+}
+
+textarea, #colorHexTable * {
+  font-family: monospace;
+}
+
 body {
-    background-color: #d6eaf2;
-    width: 80%;
-    margin: auto;
+  background-color: var(--background);
+  width: 80%;
+  margin: auto;
 }
 
 * {
-    font-family: Arial, Helvetica, sans-serif;
-    /* border: 1px black solid; */
-    margin: 5px;
-    padding: 5px;
+  font-family: Arial, Helvetica, sans-serif;
+  /* border: 1px black solid; */
+  margin: 5px;
+  padding: 5px;
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    justify-content: space-evenly;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: space-evenly;
 }
 
 .row {
-    flex-direction: row;
+  flex-direction: row;
 }
 
 table {
-    min-width: 200px;
-    width: 100%;
+  min-width: 200px;
+  width: 100%;
 }
 
 table, tr, td, input[type="color"] {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 td button {
-    width: 90%;
+  width: 90%;
 }
 
 td {
@@ -41,9 +60,9 @@ td {
 }
 
 input[type="range"] {
-    min-width: 200px;
-    width: 90%;
-    text-align: center;
+  min-width: 200px;
+  width: 90%;
+  text-align: center;
 }
 
 .center {
@@ -61,108 +80,113 @@ canvas {
   text-align: center;
 }
 
-.kirby-special {
-  width: 480px;
-}
-
-.gooey-special {
-  width: 520px;
-}
-
 button {
-    background-color: #fdcace88;
-    border: 3px solid #661e2a88;
-    padding: 8px;
-    border-radius: 4px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    cursor: pointer;
-    margin: 8px 0 !important;
+  background-color: var(--buttonGroupASemiTransparent);
+  border: 3px solid var(--buttonGroupBSemiTransparent);
+  padding: 8px;
+  border-radius: 4px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 8px 0;
+  color: var(--buttonFontColor)
 }
 
 button:hover {
-    background-color: #fdcaceff;
-    border: 3px solid #661e2aff;
+  background-color: var(--buttonGroupA);
+  border: 3px solid var(--buttonGroupB);
 }
 
 span {
-    display: flex;
-    justify-content: center
+  display: flex;
+  justify-content: center
 }
 
 .slider {
-    -webkit-appearance: none;
-    height: 4px;
-    background: rgb(179, 179, 179);
-    outline: none;
-    opacity: 0.7;
-    -webkit-transition: .2s;
-    transition: opacity .2s;
-    margin:8px;
-    border-radius: 4px;
-  }
+  height: 4px;
+  background: rgb(179, 179, 179);
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+  margin: 8px;
+  border-radius: 4px;
+}
 
-  .slider-hue {
-    background: linear-gradient(180deg, #6e40aa, #be3caf, #fe4b83, #ff7747, #e3b62f, #b0ef5a, #53f666, #1edfa2, #23acd8, #4c6fdc, #4c6fdc);
-
-  }
-
-  .slider-saturation {
-    background: linear-gradient(90deg, #888, #ff2929);
-  }
-
-  .slider-saturation-gooey {
-    background: linear-gradient(90deg, #888, #2d29ff);
-  }
-
-  .slider-brightness {
-    background: linear-gradient(90deg, #000, #fff);
-  }
-  
-  .slider:hover {
-    opacity: 1;
-  }
-  
-  .slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 30px;
-    height: 30px;
-    border: 0;
-    background: url('kirby-icon.png');
-    cursor: pointer;
-  }
-  
-  .slider::-moz-range-thumb {
-    width: 30px;
-    height: 30px;
-    border: 0;
-    background: url('kirby-icon.png');
-    cursor: pointer;
-  }
+input[type=range].slider-hue, input[type=range].slider-saturation, input[type=range].slider-brightness {
+  appearance: none;
+  -webkit-appearance: none;
+  /* remove default styling in Chrome */
+  width: 90%;
+  height: 4px;
+  background: transparent;
+  /* we’ll style the track separately */
+  margin: 8px;
+  border-radius: 4px;
+}
 
 
-  .gooey-button {
-    background-color: #13248ebb;
-    border: 3px solid #132438bb;
-    color:white;
+input[type=range].slider-hue {
+  background: linear-gradient(180deg,
+      #6e40aa,
+      #be3caf,
+      #fe4b83,
+      #ff7747,
+      #e3b62f,
+      #b0ef5a,
+      #53f666,
+      #1edfa2,
+      #23acd8,
+      #4c6fdc);
+}
 
-  }
+input[type=range].slider-saturation {
+  background: linear-gradient(90deg, #888, #ff2929);
+}
+
+input[type=range].slider-brightness {
+  background: linear-gradient(90deg, #000, #fff);
+}
+
+.slider:hover {
+  opacity: 1;
+}
 
 
-  .gooey-button:hover {
-    background-color: #13248eff;
-    border: 3px solid #132438ff;
-    color:white;
 
-  }
+/* Thumb styles for Chrome */
+input[type=range].slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 30px;
+  width: 30px;
+  border: 0;
+  /* Align thumb vertically */
+  cursor: pointer;
+}
 
-  .gooey-slider::-webkit-slider-thumb {
-    background: url('gooey-icon.png');
-  }
-  
-  .gooey-slider::-moz-range-thumb {
-    background: url('gooey-icon.png');
-  }
+/* Thumb styles for Firefox */
+input[type=range].slider::-moz-range-thumb {
+  height: 30px;
+  width: 30px;
+  border: 0;
+  cursor: pointer;
+}
+
+.slider::-webkit-slider-thumb {
+  background: url('kirby-icon.png');
+}
+
+.slider::-moz-range-thumb {
+  background: url('kirby-icon.png');
+}
+
+.gooey-slider::-webkit-slider-thumb {
+  background: url('gooey-icon.png');
+}
+
+.gooey-slider::-moz-range-thumb {
+  background: url('gooey-icon.png');
+}

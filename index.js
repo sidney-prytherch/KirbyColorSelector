@@ -3,141 +3,279 @@
 
 window.addEventListener("load", loadValues);
 
-function loadValues() {
+let body;
+let characterContainerOriginalElement;
+let characterContainers = [];
+let characterButtons = [];
+let currentCharacterIndex = 0;
 
+function createCreature(character) {
+    let isGooey = character.characterName === "Gooey"
+
+    let characterContainerElement = characterContainerOriginalElement.cloneNode(true);
+    characterContainers.push(characterContainerElement);
+    
+    let switchToCharacterButton = document.createElement("button");
+    let switchToCharacterButtonText = document.createElement("h3")
+    switchToCharacterButtonText.innerHTML = `View ${character.characterName}`
+    switchToCharacterButton.style.margin = "8px"
+    switchToCharacterButton.style.borderColor = character.buttonOutline;
+    switchToCharacterButton.style.background = character.buttonColor;
+    switchToCharacterButton.style.color = character.buttonFontColor;
+    switchToCharacterButton.appendChild(switchToCharacterButtonText);
+    characterButtons.push(switchToCharacterButton);
+
+    //this will get rewritten automatically now
     let maxPixelSize = 20;
+    let maxPixelHeight = 0;
+    let maxPixelWidth = 0;
 
-    //kirby stuff:
-    let canvas = document.getElementById("canvasKirby")
+    characterContainerElement.querySelector("#span-instructions").innerHTML = `Click ${character.characterName} to pause/continue animation`
+    characterContainerElement.querySelector("#additional-info").innerHTML = `${character.additionalInfoOrInstructions}`
+    let animations = character.animations;
+    let defaultPalettes = character.palettes;
+
+    let canvas = characterContainerElement.querySelector("#creatureCanvas")
     let ctx = canvas.getContext("2d");
-    let textarea = document.getElementById("textareaKirby")
-    let hueSlider = document.getElementById("hueSliderKirby")
-    let primaryColorsSlider = document.getElementById("primaryColorsSliderKirby")
-    let secondaryColorsSlider = document.getElementById("secondaryColorsSliderKirby")
-    let saturationSlider = document.getElementById("saturationSliderKirby")
-    let saturationPrimaryColorsSlider = document.getElementById("saturationPrimaryColorsSliderKirby")
-    let saturationSecondaryColorsSlider = document.getElementById("saturationSecondaryColorsSliderKirby")
-    let brightnessSlider = document.getElementById("brightnessSliderKirby")
-    let brightnessPrimaryColorsSlider = document.getElementById("brightnessPrimaryColorsSliderKirby")
-    let brightnessSecondaryColorsSlider = document.getElementById("brightnessSecondaryColorsSliderKirby")
-    let pixelSizeSlider = document.getElementById("pixelSizeSliderKirby")
-    let table = document.getElementById("tableKirby");
-    let randomizeKirbyColorsButton = document.getElementById("randomizeKirbyColors");
-    let uniformFeetHuesButton = document.getElementById("uniformFeetHues");
-    let uniformBodyHuesButton = document.getElementById("uniformBodyHues");
-    let chaosKirbyButton = document.getElementById("chaosKirbyButton");
-    let randomizeKirbyEverythingButton = document.getElementById("randomizeKirbyEverything");
-    let resetKirbyBodyColorsButton = document.getElementById("resetKirbyBodyColors");
-    let resetKirbyFeetColorsButton = document.getElementById("resetKirbyFeetColors");
-    let resetKirbyColorsButton = document.getElementById("resetKirbyColors");
-    let saveGifKirbyButton = document.getElementById("saveGifKirby");
+    let textarea = characterContainerElement.querySelector("#textarea")
+    let pixelSizeSlider = characterContainerElement.querySelector("#pixelSizeSlider")
+    let canvasSizeSlider = characterContainerElement.querySelector("#canvasSizeSlider")
+    let secondsPerAnimationLoop = characterContainerElement.querySelector("#secondsPerAnimationLoop")
+    let colorHexTable = characterContainerElement.querySelector("#colorHexTable");
+    let saveGifButton = characterContainerElement.querySelector("#saveGif");
+    let randomizeCreatureEverythingButton = characterContainerElement.querySelector("#randomizeCreatureEverything")
+    let animationDropDown = characterContainerElement.querySelector("#animation-dropdown");
+    let defaultPaletteDropdown = characterContainerElement.querySelector("#default-palette-dropdown");
 
-    let randomizeKirbyBodyColorsButton = document.getElementById("randomizeKirbyBodyColors");
-    let randomizeKirbyFeetColorsButton = document.getElementById("randomizeKirbyFeetColors");
-    let randomizeKirbyColorsTableButton = document.getElementById("randomizeKirbyColorsTable");
-    let randomizeKirbyBodyHuesButton = document.getElementById("randomizeKirbyBodyHues");
-    let randomizeKirbyFeetHuesButton = document.getElementById("randomizeKirbyFeetHues");
-    let randomizeKirbyHuesButton = document.getElementById("randomizeKirbyHues");
+    if (isGooey) {
+        pixelSizeSlider.classList.add("gooey-slider")
+        canvasSizeSlider.classList.add("gooey-slider")
+        secondsPerAnimationLoop.classList.add("gooey-slider")
+    }
 
-    //gooey stuff:
-    let canvasGooey = document.getElementById("canvasGooey")
-    let ctxGooey = canvasGooey.getContext("2d");
-    let textareaGooey = document.getElementById("textareaGooey")
-    let hueSliderGooey = document.getElementById("hueSliderGooey")
-    let primaryColorsSliderGooey = document.getElementById("primaryColorsSliderGooey")
-    let secondaryColorsSliderGooey = document.getElementById("secondaryColorsSliderGooey")
-    let saturationSliderGooey = document.getElementById("saturationSliderGooey")
-    let saturationPrimaryColorsSliderGooey = document.getElementById("saturationPrimaryColorsSliderGooey")
-    let saturationSecondaryColorsSliderGooey = document.getElementById("saturationSecondaryColorsSliderGooey")
-    let brightnessSliderGooey = document.getElementById("brightnessSliderGooey")
-    let brightnessPrimaryColorsSliderGooey = document.getElementById("brightnessPrimaryColorsSliderGooey")
-    let brightnessSecondaryColorsSliderGooey = document.getElementById("brightnessSecondaryColorsSliderGooey")
-    let pixelSizeSliderGooey = document.getElementById("pixelSizeSliderGooey")
-    let tableGooey = document.getElementById("tableGooey");
+    for (let animation of animations) {
+        let option = document.createElement("option");
+        option.value = animation.animationName;
+        option.innerHTML = animation.animationName;
+        animationDropDown.appendChild(option);
+    }
 
-    let randomizeGooeyColorsButton = document.getElementById("randomizeGooeyColors");
-    let uniformFeetHuesButtonGooey = document.getElementById("uniformFeetHuesGooey");
-    let uniformBodyHuesButtonGooey = document.getElementById("uniformBodyHuesGooey");
-    let chaosGooeyButton = document.getElementById("chaosGooeyButton");
-    let randomizeGooeyEverythingButton = document.getElementById("randomizeGooeyEverything");
-    let resetGooeyBodyColorsButton = document.getElementById("resetGooeyBodyColors");
-    let resetGooeyFeetColorsButton = document.getElementById("resetGooeyFeetColors");
-    let resetGooeyColorsButton = document.getElementById("resetGooeyColors");
-    let saveGifGooeyButton = document.getElementById("saveGifGooey");
+    if (animations.length === 1) {
+        animationDropDown.parentNode.style.display = "none"
+    }
 
-    let randomizeGooeyBodyColorsButton = document.getElementById("randomizeGooeyBodyColors");
-    let randomizeGooeyFeetColorsButton = document.getElementById("randomizeGooeyFeetColors");
-    let randomizeGooeyColorsTableButton = document.getElementById("randomizeGooeyColorsTable");
-    let randomizeGooeyBodyHuesButton = document.getElementById("randomizeGooeyBodyHues");
-    let randomizeGooeyFeetHuesButton = document.getElementById("randomizeGooeyFeetHues");
-    let randomizeGooeyHuesButton = document.getElementById("randomizeGooeyHues");
+    for (let defaultPalette of defaultPalettes) {
+        let option = document.createElement("option");
+        option.value = defaultPalette.name;
+        option.innerHTML = defaultPalette.name;
+        defaultPaletteDropdown.appendChild(option);
+    }
+
+    maxPixelHeight = 0;
+    maxPixelWidth = 0;
+    let animation = animations[0].animationImages;
+    for (let image of animation) {
+        let pixelHeight = image.length;
+        let pixelWidth = image.length > 0 ? image[0].length : 0;
+        maxPixelHeight = Math.max(maxPixelHeight, pixelHeight);
+        maxPixelWidth = Math.max(maxPixelWidth, pixelWidth);
+    }
+
+    let maxPixelSizeByHeight = Math.floor((canvas.height - 10) / maxPixelHeight);
+    let maxPixelSizeByWidth = Math.floor((canvas.width - 10) / maxPixelWidth);
+    maxPixelSize = Math.min(maxPixelSizeByHeight, maxPixelSizeByWidth);
+
+    let newCanvasHeight = maxPixelSize * maxPixelHeight + 10
+    let newCanvasWidth = maxPixelSize * maxPixelWidth + 10
+
+    canvas.height = newCanvasHeight
+    canvas.width = newCanvasWidth
+
+    let randomizeCreatureColorsButton = characterContainerElement.querySelector("#randomizeCreatureColors");
+
+    let colorModTable = characterContainerElement.querySelector("#color-modding-table");
+    let colorModTableHeaderRow = document.createElement("tr");
+    let colorModTableHueSliderRow = document.createElement("tr");
+    let colorModTableSaturationSliderRow = document.createElement("tr");
+    let colorModTableBrightnessliderRow = document.createElement("tr");
+    let colorModTableRandomizeColorButtonRow = document.createElement("tr");
+    let colorModTableRandomizeHueButtonRow = document.createElement("tr");
+    let colorModTableResetHueButtonRow = document.createElement("tr");
+    let colorModTableUniformHueButtonRow = document.createElement("tr");
+
+    colorModTableHeaderRow.appendChild(document.createElement("th"))
+    colorModTable.appendChild(colorModTableHeaderRow)
+
+    let td = document.createElement("td")
+    td.innerHTML = "Hue Sliders:"
+    colorModTableHueSliderRow.appendChild(td)
+    colorModTable.appendChild(colorModTableHueSliderRow)
+
+    td = document.createElement("td")
+    td.innerHTML = "Saturation Sliders:"
+    colorModTableSaturationSliderRow.appendChild(td)
+    colorModTable.appendChild(colorModTableSaturationSliderRow)
+
+    td = document.createElement("td")
+    td.innerHTML = "Brightness Sliders:"
+    colorModTableBrightnessliderRow.appendChild(td)
+    colorModTable.appendChild(colorModTableBrightnessliderRow)
+
+    td = document.createElement("td")
+    td.innerHTML = "Randomize Colors:"
+    colorModTableRandomizeColorButtonRow.appendChild(td)
+    colorModTable.appendChild(colorModTableRandomizeColorButtonRow)
+
+    td = document.createElement("td")
+    td.innerHTML = "Randomize Hues:"
+    colorModTableRandomizeHueButtonRow.appendChild(td)
+    colorModTable.appendChild(colorModTableRandomizeHueButtonRow)
+
+    td = document.createElement("td")
+    td.innerHTML = "Reset Colors:"
+    colorModTableResetHueButtonRow.appendChild(td)
+    colorModTable.appendChild(colorModTableResetHueButtonRow)
+
+    td = document.createElement("td")
+    td.innerHTML = "Uniform Hues:"
+    colorModTableUniformHueButtonRow.appendChild(td)
+    colorModTable.appendChild(colorModTableUniformHueButtonRow)
+
+    character.colorGroupData.push(
+        {
+            colorGroupName: "All",
+            colorIndices: defaultPalettes[0].colors.map((color, index) => index),
+            indexOfMainColor: character.colorGroupData[0].indexOfMainColor
+        }
+    )
+
+    let hueSliders = []
+    let saturationSliders = []
+    let brightnessSliders = []
+    let uniformHueButtons = []
+    let resetColorButtons = []
+    let randomizeColorButtons = []
+    let randomizeHueButtons = []
+
+    for (let colorGroup of character.colorGroupData) {
+
+
+            let uniqueID = `${character.characterName}${colorGroup.colorGroupName}`
+            let colorGroupID = colorGroup.colorGroupName
+            let td = document.createElement("th")
+            td.innerHTML = `${colorGroup.colorGroupName} Colors`
+            colorModTableHeaderRow.appendChild(td)
+
+            let hueSlider = document.createElement("input");
+            hueSlider.id = `hueSliderGroup${uniqueID}`
+            hueSlider.classList.add('slider')
+            hueSlider.classList.add('slider-hue')
+            hueSlider.type = "range"
+            hueSlider.min = "-180"
+            hueSlider.max = "180"
+            if (isGooey) hueSlider.classList.add("gooey-slider")
+            td = document.createElement("td")
+            td.appendChild(hueSlider)
+            colorModTableHueSliderRow.appendChild(td)
+            hueSliders.push(hueSlider)
+
+            let saturationSlider = document.createElement("input");
+            saturationSlider.id = `saturationSliderGroup${uniqueID}`
+            saturationSlider.classList.add('slider')
+            saturationSlider.classList.add('slider-saturation')
+            saturationSlider.type = "range"
+            saturationSlider.min = "-100"
+            saturationSlider.max = "100"
+            if (isGooey) saturationSlider.classList.add("gooey-slider")
+            td = document.createElement("td")
+            td.appendChild(saturationSlider)
+            saturationSliders.push(saturationSlider)
+            colorModTableSaturationSliderRow.appendChild(td)
+
+            let brightnessSlider = document.createElement("input");
+            brightnessSlider.id = `brightnessSliderGroup${uniqueID}`
+            brightnessSlider.classList.add('slider')
+            brightnessSlider.classList.add('slider-brightness')
+            brightnessSlider.type = "range"
+            brightnessSlider.min = "-100"
+            brightnessSlider.max = "100"
+            if (isGooey) brightnessSlider.classList.add("gooey-slider")
+            td = document.createElement("td")
+            td.appendChild(brightnessSlider)
+            brightnessSliders.push(brightnessSlider)
+            colorModTableBrightnessliderRow.appendChild(td)
+
+            let uniformHueButton = document.createElement("button");
+            uniformHueButton.innerHTML = `Remove outlier colors in ${colorGroupID}`
+            uniformHueButton.title = `Set all ${colorGroupID} colors to the same hue`
+            td = document.createElement("td")
+            td.appendChild(uniformHueButton)
+            colorModTableUniformHueButtonRow.appendChild(td)
+            uniformHueButtons.push(uniformHueButton);
+
+            let resetColorButton = document.createElement("button");
+            resetColorButton.innerHTML = `Reset Colors (${colorGroupID})`
+            resetColorButton.title = `Reset ${colorGroupID} colors to their original color`
+            td = document.createElement("td")
+            td.appendChild(resetColorButton)
+            colorModTableResetHueButtonRow.appendChild(td)
+            resetColorButtons.push(resetColorButton);
+
+            let randomizeColorButton = document.createElement("button");
+            randomizeColorButton.innerHTML = `Randomize Colors (${colorGroupID})`
+            randomizeColorButton.title = `Randomize Saturation, Brightness and Hue of ${colorGroupID} colors`
+            td = document.createElement("td")
+            td.appendChild(randomizeColorButton)
+            colorModTableRandomizeColorButtonRow.appendChild(td)
+            randomizeColorButtons.push(randomizeColorButton)
+
+            let randomizeHueButton = document.createElement("button");
+            randomizeHueButton.innerHTML = `Randomize Hues (${colorGroupID})`
+            randomizeHueButton.title = `Randomize Hue of ${colorGroupID} colors (keep saturation and brightness as is)`
+            td = document.createElement("td")
+            td.appendChild(randomizeHueButton)
+            colorModTableRandomizeHueButtonRow.appendChild(td)
+            randomizeHueButtons.push(randomizeHueButton)
+    }
+
+        
 
     let resetSliders = () => {
-        hueSlider.value = 0;
-        secondaryColorsSlider.value = 0;
-        primaryColorsSlider.value = 0;
-        saturationSlider.value = 0;
-        saturationSecondaryColorsSlider.value = 0;
-        saturationPrimaryColorsSlider.value = 0;
-        brightnessSlider.value = 0;
-        brightnessSecondaryColorsSlider.value = 0;
-        brightnessPrimaryColorsSlider.value = 0;
+        for (let slider of hueSliders) {
+            slider.value = 0;
+        }
+        for (let slider of brightnessSliders) {
+            slider.value = 0;
+        }
+        for (let slider of saturationSliders) {
+            slider.value = 0;
+        }
     }
 
-    let kirbyModifiers = {
-        saturationPrimaryRange: 1.2, 
-        saturationPrimaryStart: -.6,
-        saturationSecondaryRange: 1.2, 
-        saturationSecondaryStart: -.5,
-        brightnessPrimaryRange: .5, 
-        brightnessPrimaryStart: -.4,
-        brightnessSecondaryRange: .6, 
-        brightnessSecondaryStart: -.5,
-    }
+    character.characterColors = []
+    character.defaultColors = []
+    let creatureColors = character.characterColors;
+    let defaultCreatureColors = character.defaultColors;
+    let colorPalette = defaultPalettes[0];
 
-    let gooeyModifiers = {
-        saturationPrimaryRange: 1.2, 
-        saturationPrimaryStart: -.75,
-        saturationSecondaryRange: 1.1, 
-        saturationSecondaryStart: -.8,
-        brightnessPrimaryRange: .6, 
-        brightnessPrimaryStart: -.1,
-        brightnessSecondaryRange: .7,
-        brightnessSecondaryStart: -.4,
-    }
-
-    let resetSlidersGooey = () => {
-        hueSliderGooey.value = 0;
-        primaryColorsSliderGooey.value = 0;
-        secondaryColorsSliderGooey.value = 0;
-        saturationSliderGooey.value = 0;
-        saturationPrimaryColorsSliderGooey.value = 0;
-        saturationSecondaryColorsSliderGooey.value = 0;
-        brightnessSliderGooey.value = 0;
-        brightnessPrimaryColorsSliderGooey.value = 0;
-        brightnessSecondaryColorsSliderGooey.value = 0;
-    }
-
-
-    let kirbyColors = [];
-    let defaultKirbyColors = [];
-    let currentKirbyColors = [];
-
-    colors.forEach(value => {
+    colorPalette.colors.forEach(value => {
         if (!!value) {
-            kirbyColors.push({ color: value });
-            defaultKirbyColors.push(value)
-            currentKirbyColors.push(value)
+            creatureColors.push({ color: value });
+            defaultCreatureColors.push(value)
         }
     });
 
-    for (let i = 0; i < kirbyImages.length; i++) {
-        let table = kirbyImages[i];
-        for (let y = 0; y < table.length; y++) {
-            for (let x = 0; x < table[y].length; x++) {
-                for (let color of kirbyColors) {
-                    if (table[y][x] === color.color) {
-                        table[y][x] = color;
+
+    for (let animationData of animations) {
+        let anim = animationData.animationImages;
+        for (let i = 0; i < anim.length; i++) {
+            let table = anim[i];
+            for (let y = 0; y < table.length; y++) {
+                for (let x = 0; x < table[y].length; x++) {
+                    for (let color of creatureColors) {
+                        if (table[y][x] === color.color) {
+                            table[y][x] = color;
+                        }
                     }
                 }
             }
@@ -145,16 +283,16 @@ function loadValues() {
     }
 
 
-    let kirbyTableRows = [];
-    for (let i = 0; i < kirbyColors.length; i++) {
+    let creatureTableRows = [];
+    for (let i = 0; i < creatureColors.length; i++) {
 
-        let color = kirbyColors[i]
-        let row = table.insertRow(i);
+        let color = creatureColors[i]
+        let row = colorHexTable.insertRow(i);
         let cell = row.insertCell(0);
         let cell2 = row.insertCell(1);
 
         var span = document.createElement("span");
-        span.innerHTML = `${i + 1}: ${kirbyColors[i].color}`;
+        span.innerHTML = `${i + 1}: ${creatureColors[i].color}`;
 
         cell2.appendChild(span)
 
@@ -163,194 +301,242 @@ function loadValues() {
         cell.appendChild(input); // put it into the DOM
         input.value = color.color
 
-        kirbyTableRows.push(
+        creatureTableRows.push(
             {
                 color: color,
                 input: input,
-                span: span
+                span: span,
+                colorIndex: i
             }
         );
     }
 
-    let kirby = new Creature(kirbyImages, kirbyColors, defaultKirbyColors, canvas, ctx, primaryColorIndices, kirbyTableRows, 'kirby_flavor', "#d6eaf2", textarea, resetSliders, kirbyModifiers);
+    let selectedAnimation = animations[0];
+    secondsPerAnimationLoop.value = selectedAnimation.animationSeconds;
+    let animationMSPerFrame;
+    getMSPerFrame(selectedAnimation.animationSeconds);
 
-    for (let i = 0; i < kirbyTableRows.length; i++) {
-        kirbyTableRows[i].input.addEventListener("input", () => { kirby.draw() });
-        kirbyTableRows[i].input.addEventListener("change", () => { kirby.saveCurrentColors() })
+    function getMSPerFrame(animationSeconds) {
+        animationMSPerFrame = animationSeconds * 1000 / (selectedAnimation.animationImages.length);
     }
 
-    canvas.addEventListener("click", () => { kirby.changeAnimation(/*saveGifHelper*/) }, false);
+    let htmlElements = {
+        canvas,
+        ctx,
+        textarea, 
+        creatureTableRows, 
+        resetSliders, 
+        pixelSizeSlider
+    }
 
-    hueSlider.addEventListener("input", () => { kirby.setAllColorsRelativeHue(Number.parseInt(hueSlider.value)) })
-    primaryColorsSlider.addEventListener("input", () => { kirby.setPrimaryColorsRelativeHues(Number.parseInt(primaryColorsSlider.value)) })
-    secondaryColorsSlider.addEventListener("input", () => { kirby.setSecondaryColorsRelativeHue(Number.parseInt(secondaryColorsSlider.value)) })
+    let pixelData = {
+        maxPixelSize, maxPixelHeight, maxPixelWidth
+    }
 
-    saturationSlider.addEventListener("input", () => { kirby.changeAllSaturation(Number.parseFloat(saturationSlider.value)) })
-    saturationSecondaryColorsSlider.addEventListener("input", () => { kirby.setSecondaryColorsRelativeSaturation(Number.parseFloat(saturationSecondaryColorsSlider.value)) })
-    saturationPrimaryColorsSlider.addEventListener("input", () => { kirby.setPrimaryColorsRelativeSaturation(Number.parseFloat(saturationPrimaryColorsSlider.value)) })
+    let creature = new Creature(
+        htmlElements,
+        pixelData, 
+        animationMSPerFrame, 
+        character
+    );
 
-    brightnessSlider.addEventListener("input", () => { kirby.changeAllBrightness(Number.parseFloat(brightnessSlider.value)) })
-    brightnessSecondaryColorsSlider.addEventListener("input", () => { kirby.setSecondaryColorsRelativeBrightness(Number.parseFloat(brightnessSecondaryColorsSlider.value)) })
-    brightnessPrimaryColorsSlider.addEventListener("input", () => { kirby.setPrimaryColorsRelativeBrightness(Number.parseFloat(brightnessPrimaryColorsSlider.value)) })
 
-    pixelSizeSlider.addEventListener("input", () => { kirby.setPixelSize(pixelSizeSlider.value) })
+    animationDropDown.addEventListener("change", () => {
+        setAnimation(animationDropDown.value);
+    })
 
-    hueSlider.addEventListener("change", () => { kirby.saveCurrentColors() })
-    secondaryColorsSlider.addEventListener("change", () => { kirby.saveCurrentColors() })
-    primaryColorsSlider.addEventListener("change", () => { kirby.saveCurrentColors() })
-    saturationSlider.addEventListener("change", () => { kirby.saveCurrentColors() })
-    saturationSecondaryColorsSlider.addEventListener("change", () => { kirby.saveCurrentColors() })
-    saturationPrimaryColorsSlider.addEventListener("change", () => { kirby.saveCurrentColors() })
-    brightnessSlider.addEventListener("change", () => { kirby.saveCurrentColors() })
-    brightnessSecondaryColorsSlider.addEventListener("change", () => { kirby.saveCurrentColors() })
-    brightnessPrimaryColorsSlider.addEventListener("change", () => { kirby.saveCurrentColors() })
+    defaultPaletteDropdown.addEventListener("change", () => {
+        let selectedPalette = defaultPalettes.find(it => it.name == defaultPaletteDropdown.value);
+        defaultCreatureColors = [];
+        selectedPalette.colors.forEach(value => {
+            if (!!value) {
+                defaultCreatureColors.push(value)
+            }
+        });
+        creature.setDefaultColors(defaultCreatureColors)
+    })
 
-    randomizeKirbyColorsButton.addEventListener("click", () => { kirby.randomizeColors() });
-    uniformFeetHuesButton.addEventListener("click", () => { kirby.uniformSecondaryColorsHues() });
-    uniformBodyHuesButton.addEventListener("click", () => { kirby.uniformPrimaryColorsHues() });
-    chaosKirbyButton.addEventListener("click", () => { kirby.chaosButton() });
-    randomizeKirbyEverythingButton.addEventListener("click", () => { kirby.randomizeAllColorQualities() });
-    resetKirbyBodyColorsButton.addEventListener("click", () => { kirby.resetPrimaryColorsToDefault() });
-    resetKirbyFeetColorsButton.addEventListener("click", () => { kirby.resetSecondaryColorsToDefault() });
-    resetKirbyColorsButton.addEventListener("click", () => { kirby.resetAllColorsToDefault() });
 
-    saveGifKirbyButton.addEventListener("click", () => { kirby.saveGif(maxPixelSize) })
 
-    randomizeKirbyBodyColorsButton.addEventListener("click", () => {kirby.randomizePrimaryColorQualities()});
-    randomizeKirbyFeetColorsButton.addEventListener("click", () => {kirby.randomizeSecondaryColorQualities()});
-    randomizeKirbyColorsTableButton.addEventListener("click", () => {kirby.randomizeAllColorQualities()});
-    randomizeKirbyBodyHuesButton.addEventListener("click", () => {kirby.randomizePrimaryHues()});
-    randomizeKirbyFeetHuesButton.addEventListener("click", () => {kirby.randomizeSecondaryHues()});
-    randomizeKirbyHuesButton.addEventListener("click", () => {kirby.randomizeColors()});
 
-    
+    for (let i = 0; i < creatureTableRows.length; i++) {
+        creatureTableRows[i].input.addEventListener("input", () => { creature.draw() });
+        creatureTableRows[i].input.addEventListener("change", () => { creature.saveCurrentColors() })
+    }
+
+    canvas.addEventListener("click", () => { creature.changeAnimation(/*saveGifHelper*/) }, false);
+
+
+    for (let colorGroupIndex = 0; colorGroupIndex < hueSliders.length; colorGroupIndex++) {
+        let hueSlider = hueSliders[colorGroupIndex]
+        if (colorGroupIndex === hueSliders.length - 1) {
+            hueSlider.addEventListener("input", () => { creature.setAllColorsRelativeHue(Number.parseInt(hueSlider.value)) })
+        } else {
+            hueSlider.addEventListener("input", () => { creature.setColorGroupRelativeHues(Number.parseInt(hueSlider.value), colorGroupIndex) })
+        }
+        hueSlider.addEventListener("change", () => { creature.saveCurrentColors() })
+
+        let saturationSlider = saturationSliders[colorGroupIndex]
+        if (colorGroupIndex === saturationSliders.length - 1) {
+            saturationSlider.addEventListener("input", () => { creature.changeAllSaturation(Number.parseFloat(saturationSlider.value / 100)) })
+        } else {
+            saturationSlider.addEventListener("input", () => { creature.setColorGroupRelativeSaturation(Number.parseFloat(saturationSlider.value / 100), colorGroupIndex) })
+        }
+        saturationSlider.addEventListener("change", () => { creature.saveCurrentColors() })
+
+        let brightnessSlider = brightnessSliders[colorGroupIndex]
+        if (colorGroupIndex === brightnessSliders.length - 1) {
+            brightnessSlider.addEventListener("input", () => { creature.changeAllBrightness(Number.parseFloat(brightnessSlider.value / 100)) })
+        } else {
+            brightnessSlider.addEventListener("input", () => { creature.setColorGroupRelativeBrightness(Number.parseFloat(brightnessSlider.value / 100), colorGroupIndex) })
+        }
+        brightnessSlider.addEventListener("change", () => { creature.saveCurrentColors() })
+
+        let uniformHueButton = uniformHueButtons[colorGroupIndex];
+        uniformHueButton.addEventListener("click", () => { creature.uniformHuesOfGroup(colorGroupIndex) });
+        let resetColorButton = resetColorButtons[colorGroupIndex];
+        resetColorButton.addEventListener("click", () => { creature.resetColorGroupToDefault(colorGroupIndex) });
+        let randomizeColorButton = randomizeColorButtons[colorGroupIndex];
+        if (colorGroupIndex === hueSliders.length - 1) {
+            randomizeColorButton.addEventListener("click", () => { creature.randomizeAllColorQualities() });
+        } else {
+            randomizeColorButton.addEventListener("click", () => { creature.randomizeGroupColorQualities(colorGroupIndex) });
+        }
+        let randomizeHueButton = randomizeHueButtons[colorGroupIndex];
+        if (colorGroupIndex === hueSliders.length - 1) {
+            randomizeHueButton.addEventListener("click", () => { creature.randomizeHues() });
+        } else {
+            randomizeHueButton.addEventListener("click", () => { creature.randomizeHueOfGroup(colorGroupIndex) });
+        }
+    }
+
+    pixelSizeSlider.max = `${maxPixelSize}`
+    pixelSizeSlider.addEventListener("input", () => { creature.setPixelSize(pixelSizeSlider.value) })
+
+    function getMaxPixelSize(optionalCanvasLength) {
+        maxPixelHeight = 0;
+        maxPixelWidth = 0;
+        let animation = selectedAnimation.animationImages;
+        for (let image of animation) {
+            let pixelHeight = image.length;
+            let pixelWidth = image.length > 0 ? image[0].length : 0;
+            maxPixelHeight = Math.max(maxPixelHeight, pixelHeight);
+            maxPixelWidth = Math.max(maxPixelWidth, pixelWidth);
+        }
+
+        let height = optionalCanvasLength ? optionalCanvasLength : canvas.height;
+        let width = optionalCanvasLength ? optionalCanvasLength : canvas.width;
+        let maxPixelSizeByHeight = Math.floor((height - 10) / maxPixelHeight);
+        let maxPixelSizeByWidth = Math.floor((width - 10) / maxPixelWidth);
+        maxPixelSize = Math.min(maxPixelSizeByHeight, maxPixelSizeByWidth);
+    }
+
+
+    function setAnimation(animationName, speed) {
+        if (selectedAnimation.animationName !== animationName) {
+            selectedAnimation = animations.find(it => it.animationName == animationName);
+            secondsPerAnimationLoop.value = selectedAnimation.animationSeconds;
+
+            getMaxPixelSize()
+
+            creature.updateAnimation(selectedAnimation.animationImages);
+            creature.updateMaxPixelSize(maxPixelSize, maxPixelHeight, maxPixelWidth);
+        }
+        if (!speed) {
+            speed = selectedAnimation.animationSeconds;
+        }
+        getMSPerFrame(speed)
+        creature.setAnimationSpeed(animationMSPerFrame);
+        creature.stopAnimation();
+        creature.startAnimation();
+
+    }
+
+    secondsPerAnimationLoop.addEventListener("input", () => {
+        setAnimation(selectedAnimation.animationName, secondsPerAnimationLoop.value)
+    })
+
+    canvasSizeSlider.addEventListener("change", () => {
+        let ctx = canvas.getContext("2d");
+
+        selectedAnimation = animations.find(it => it.animationName == animationDropDown.value);
+
+        getMaxPixelSize(canvasSizeSlider.value);
+
+        let newCanvasHeight = maxPixelSize * maxPixelHeight + 10
+        let newCanvasWidth = maxPixelSize * maxPixelWidth + 10
+
+        canvas.height = newCanvasHeight
+        canvas.width = newCanvasWidth
+
+        pixelSizeSlider.max = `${maxPixelSize}`
+        pixelSizeSlider.value = `${Math.min(maxPixelSize, pixelSizeSlider.value)}`
+        creature.setPixelSize(pixelSizeSlider.value)
+
+
+        creature.updateAnimation(selectedAnimation.animationImages);
+        creature.updateMaxPixelSize(maxPixelSize, maxPixelHeight, maxPixelWidth);
+        creature.updateCtx(ctx)
+        creature.updateCanvas(canvas)
+    })
+
+
+
+    randomizeCreatureColorsButton.addEventListener("click", () => { creature.randomizeHues() });
+    // chaosCreatureButton.addEventListener("click", () => { creature.chaosButton() });
+    randomizeCreatureEverythingButton.addEventListener("click", () => { creature.randomizeAllColorQualities() });
+
+    saveGifButton.addEventListener("click", () => { creature.saveGif(maxPixelSize) })
+
+
+
 
     resetSliders();
 
-    kirby.changeAnimation();
-    // canvas.addEventListener("click", () => {console.log(kirby, kirbyColors)})
+    creature.changeAnimation();
+    creature.setPixelSize(maxPixelSize);
+    pixelSizeSlider.value = maxPixelSize;
 
+}
 
+function loadValues() {
 
-    //gooey stuff:
+    characterContainerOriginalElement = document.querySelector("#characterContainer");
+    body = characterContainerOriginalElement.parentNode;
 
-    let gooeyColors = [];
-    let defaultGooeyColors = [];
-    let currentGooeyColors = [];
-
-    gooeyColorsData.forEach(value => {
-        if (!!value) {
-            gooeyColors.push({ color: value });
-            defaultGooeyColors.push(value)
-            currentGooeyColors.push(value)
-        }
-    });
-
-    for (let i = 0; i < gooeyImages.length; i++) {
-        let table = gooeyImages[i];
-        for (let y = 0; y < table.length; y++) {
-            for (let x = 0; x < table[y].length; x++) {
-                for (let color of gooeyColors) {
-                    if (table[y][x] === color.color) {
-                        table[y][x] = color;
-                    }
-                }
-            }
-        }
+    for (let character of characters) {
+        createCreature(character);
     }
 
-    let gooeyTableRows = [];
-    for (let i = 0; i < gooeyColors.length; i++) {
-
-        let color = gooeyColors[i]
-        let row = tableGooey.insertRow(i);
-        let cell = row.insertCell(0);
-        let cell2 = row.insertCell(1);
-
-        var span = document.createElement("span");
-        span.innerHTML = `${i + 1}: ${gooeyColors[i].color}`;
-
-        cell2.appendChild(span)
-
-        var input = document.createElement("input");
-        input.type = "color";
-        cell.appendChild(input); // put it into the DOM
-        input.value = color.color
-
-        gooeyTableRows.push(
-            {
-                color: color,
-                input: input,
-                span: span
-            }
-        );
+    for (let characterContainer of characterContainers) {
+        let buttonContainer = characterContainer.querySelector("#characterButtons")
+        console.log(buttonContainer);
+        buttonContainer.innerHTML = "";
+        characterButtons.forEach((button, index) => {
+            let buttonClone = button.cloneNode(true)
+            buttonContainer.appendChild(buttonClone);
+            buttonClone.addEventListener("click", () => {
+                let previousCharacterIndex = currentCharacterIndex;
+                currentCharacterIndex = index;
+                switchCharacterByIndex(previousCharacterIndex, currentCharacterIndex);
+            })
+        })
     }
 
-    // console.log("kirbyImages", kirbyImages);
-    // console.log("defaultKirbyColors", defaultKirbyColors);
-    // console.log("canvas", canvas);
-    // console.log("ctx", ctx);
-    // console.log("primaryColorIndices", primaryColorIndices);
-    // console.log("kirbyTableRows", kirbyTableRows);
-    // console.log("specialHueFixIndices", specialHueFixIndices);
-    // console.log("textarea", textarea);
+    currentCharacterIndex = 0;
 
-    let gooey = new Creature(gooeyImages, gooeyColors, defaultGooeyColors, canvasGooey, ctxGooey, primaryColorIndicesGooey, gooeyTableRows, 'gooey_flavor', "#d6eaf2", textareaGooey, resetSlidersGooey, gooeyModifiers);
+    body.removeChild(characterContainerOriginalElement);
+    body.appendChild(characterContainers[currentCharacterIndex]);
+    switchCharacterByIndex(0, 0);
+   
+}
 
-    for (let i = 0; i < gooeyTableRows.length; i++) {
-        gooeyTableRows[i].input.addEventListener("input", () => { gooey.draw() });
-        gooeyTableRows[i].input.addEventListener("change", () => { gooey.saveCurrentColors() })
-    }
-
-    canvasGooey.addEventListener("click", () => { gooey.changeAnimation(/*saveGifHelper*/) }, false);
-
-    hueSliderGooey.addEventListener("input", () => { gooey.setAllColorsRelativeHue(Number.parseInt(hueSliderGooey.value)) })
-    primaryColorsSliderGooey.addEventListener("input", () => { gooey.setPrimaryColorsRelativeHues(Number.parseInt(primaryColorsSliderGooey.value)) })
-    secondaryColorsSliderGooey.addEventListener("input", () => { gooey.setSecondaryColorsRelativeHue(Number.parseInt(secondaryColorsSliderGooey.value)) })
-
-    saturationSliderGooey.addEventListener("input", () => { gooey.changeAllSaturation(Number.parseFloat(saturationSliderGooey.value)) })
-    saturationSecondaryColorsSliderGooey.addEventListener("input", () => { gooey.setSecondaryColorsRelativeSaturation(Number.parseFloat(saturationSecondaryColorsSliderGooey.value)) })
-    saturationPrimaryColorsSliderGooey.addEventListener("input", () => { gooey.setPrimaryColorsRelativeSaturation(Number.parseFloat(saturationPrimaryColorsSliderGooey.value)) })
-
-    brightnessSliderGooey.addEventListener("input", () => { gooey.changeAllBrightness(Number.parseFloat(brightnessSliderGooey.value)) })
-    brightnessSecondaryColorsSliderGooey.addEventListener("input", () => { gooey.setSecondaryColorsRelativeBrightness(Number.parseFloat(brightnessSecondaryColorsSliderGooey.value)) })
-    brightnessPrimaryColorsSliderGooey.addEventListener("input", () => { gooey.setPrimaryColorsRelativeBrightness(Number.parseFloat(brightnessPrimaryColorsSliderGooey.value)) })
-
-    pixelSizeSliderGooey.addEventListener("input", () => { gooey.setPixelSize(pixelSizeSliderGooey.value) })
-
-    hueSliderGooey.addEventListener("change", () => { gooey.saveCurrentColors() })
-    secondaryColorsSliderGooey.addEventListener("change", () => { gooey.saveCurrentColors() })
-    primaryColorsSliderGooey.addEventListener("change", () => { gooey.saveCurrentColors() })
-    saturationSliderGooey.addEventListener("change", () => { gooey.saveCurrentColors() })
-    saturationSecondaryColorsSliderGooey.addEventListener("change", () => { gooey.saveCurrentColors() })
-    saturationPrimaryColorsSliderGooey.addEventListener("change", () => { gooey.saveCurrentColors() })
-    brightnessSliderGooey.addEventListener("change", () => { gooey.saveCurrentColors() })
-    brightnessSecondaryColorsSliderGooey.addEventListener("change", () => { gooey.saveCurrentColors() })
-    brightnessPrimaryColorsSliderGooey.addEventListener("change", () => { gooey.saveCurrentColors() })
-
-    randomizeGooeyColorsButton.addEventListener("click", () => { gooey.randomizeColors() });
-    uniformFeetHuesButtonGooey.addEventListener("click", () => { gooey.uniformSecondaryColorsHues() });
-    uniformBodyHuesButtonGooey.addEventListener("click", () => { gooey.uniformPrimaryColorsHues() });
-    chaosGooeyButton.addEventListener("click", () => { gooey.chaosButton() });
-    randomizeGooeyEverythingButton.addEventListener("click", () => { gooey.randomizeAllColorQualities() });
-    resetGooeyBodyColorsButton.addEventListener("click", () => { gooey.resetPrimaryColorsToDefault() });
-    resetGooeyFeetColorsButton.addEventListener("click", () => { gooey.resetSecondaryColorsToDefault() });
-    resetGooeyColorsButton.addEventListener("click", () => { gooey.resetAllColorsToDefault() });
-
-    saveGifGooeyButton.addEventListener("click", () => { gooey.saveGif(10) })
-
-    randomizeGooeyBodyColorsButton.addEventListener("click", () => {gooey.randomizePrimaryColorQualities()});
-    randomizeGooeyFeetColorsButton.addEventListener("click", () => {gooey.randomizeSecondaryColorQualities()});
-    randomizeGooeyColorsTableButton.addEventListener("click", () => {gooey.randomizeAllColorQualities()});
-    randomizeGooeyBodyHuesButton.addEventListener("click", () => {gooey.randomizePrimaryHues()});
-    randomizeGooeyFeetHuesButton.addEventListener("click", () => {gooey.randomizeSecondaryHues()});
-    randomizeGooeyHuesButton.addEventListener("click", () => {gooey.randomizeColors()});
-
-
-    
-
-    resetSliders();
-
-    gooey.changeAnimation();
-    // canvas.addEventListener("click", () => {console.log(kirby, kirbyColors)})
+function switchCharacterByIndex(previousIndex, currentIndex) {
+    body.replaceChild(characterContainers[currentIndex], characterContainers[previousIndex]);
+    document.documentElement.style.setProperty('--buttonFontColor', characters[currentIndex].buttonFontColor);
+    document.documentElement.style.setProperty('--background', characters[currentIndex].backgroundColor);
+    document.documentElement.style.setProperty('--buttonGroupA', characters[currentIndex].buttonColor);
+    document.documentElement.style.setProperty('--buttonGroupB', characters[currentIndex].buttonOutline);
+    document.documentElement.style.setProperty('--buttonGroupASemiTransparent', characters[currentIndex].buttonColor + "c2");
+    document.documentElement.style.setProperty('--buttonGroupBSemiTransparent', characters[currentIndex].buttonOutline + "c2");
 }
