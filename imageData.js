@@ -357,7 +357,7 @@ let characters = [
         backgroundColor: "#D6EAF2",
         palettes: [
             {
-                name: "Gooey Default",
+                name: "Default",
                 colors: [
                     "#000909", //pupil, outer-most ring
                     "#0E1E2A", //ring-highlight
