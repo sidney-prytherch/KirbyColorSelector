@@ -154,6 +154,45 @@ input[type=range].slider-brightness {
   opacity: 1;
 }
 
+.hidden {
+  display: none !important;
+}
+
+.lock-button {
+  background-color: var(--background);
+  border: none;
+  padding: 0;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  height: 18px;
+  width: 18px;
+  cursor: pointer;
+  color: var(--buttonGroupA)
+}
+
+.lock-icon {
+  display: inline-block;
+  height: 18px;
+  width: 18px;
+  color: #bbb;
+  background-image: url('./lock-solid.svg');
+  background-repeat: no-repeat;
+}
+
+.unlock-icon {
+  display: inline-block;
+  height: 18px;
+  width: 18px;
+  background-image: url('./unlock-solid.svg');
+  background-repeat: no-repeat;
+}
+
+.lock-button:hover {
+  background-color: var(--background);
+  border: none;
+}
+
 
 
 /* Thumb styles for Chrome */

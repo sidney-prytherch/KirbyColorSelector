@@ -25,6 +25,7 @@ function createCreature(character) {
     switchToCharacterButton.appendChild(switchToCharacterButtonText);
     characterButtons.push(switchToCharacterButton);
 
+
     //this will get rewritten automatically now
     let maxPixelSize = 20;
     let maxPixelHeight = 0;
@@ -290,23 +291,49 @@ function createCreature(character) {
         let row = colorHexTable.insertRow(i);
         let cell = row.insertCell(0);
         let cell2 = row.insertCell(1);
+        let cell3 = row.insertCell(2);
 
-        var span = document.createElement("span");
-        span.innerHTML = `${i + 1}: ${creatureColors[i].color}`;
+        let span = document.createElement("span");
+        span.innerHTML = `${i + 1}:~ ${creatureColors[i].color}`;
 
-        cell2.appendChild(span)
+        cell3.appendChild(span)
 
-        var input = document.createElement("input");
+        let input = document.createElement("input");
         input.type = "color";
-        cell.appendChild(input); // put it into the DOM
+        cell2.appendChild(input); // put it into the DOM
         input.value = color.color
+        
+        let lockButton = document.createElement("button");
+        let lockIcon = document.createElement("i");
+        lockIcon.classList.add("unlock-icon")
+        let unlockIcon = document.createElement("i");
+        unlockIcon.classList.add("lock-icon")
+        unlockIcon.classList.add("hidden")
+        lockButton.classList.add("lock-button");
+        lockButton.appendChild(lockIcon)
+        lockButton.appendChild(unlockIcon)
+        lockButton.append()
+        lockButton.addEventListener("click", () => {
+            creatureTableRows[i].isLocked = !creatureTableRows[i].isLocked
+            if (creatureTableRows[i].isLocked) {
+                lockIcon.classList.add("hidden")
+                unlockIcon.classList.remove("hidden")
+                input.disabled = true;
+            } else {
+                unlockIcon.classList.add("hidden")
+                lockIcon.classList.remove("hidden")
+                input.disabled = false;
+            }
+        })
+        cell.appendChild(lockButton);
 
         creatureTableRows.push(
             {
                 color: color,
                 input: input,
                 span: span,
-                colorIndex: i
+                colorIndex: i,
+                isLocked: false
             }
         );
     }
@@ -446,11 +473,11 @@ function createCreature(character) {
             speed = selectedAnimation.animationSeconds;
         }
         getMSPerFrame(speed)
+        creature.setAnimationSpeed(animationMSPerFrame);
+        creature.stopAnimation();
         pixelSizeSlider.max = `${maxPixelSize}`
         pixelSizeSlider.value = `${Math.min(maxPixelSize, pixelSizeSlider.value)}`
         creature.setPixelSize(pixelSizeSlider.value)
-        creature.setAnimationSpeed(animationMSPerFrame);
-        creature.stopAnimation();
         creature.startAnimation();
 
     }

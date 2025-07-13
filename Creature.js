@@ -75,23 +75,29 @@ class Creature {
         this.resetSliders();
     }
 
+    setColor(colorData, newColor) {
+        if (!colorData.isLocked) {
+            colorData.input.value = newColor
+        }
+    }
+
     setAllColorsRelativeHue(changeInHue) {
         for (let colorData of this.tableRows) {
-            colorData.input.value = ColorModifiers.shiftColorHueByDegree(this.currentColors[colorData.colorIndex], changeInHue)
+            this.setColor(colorData, ColorModifiers.shiftColorHueByDegree(this.currentColors[colorData.colorIndex], changeInHue))
         }
         this.draw();
     }
 
     changeAllBrightness(changeInBrightness) {
         for (let colorData of this.tableRows) {
-            colorData.input.value = ColorModifiers.shiftColorBrightnessByDegree(this.currentColors[colorData.colorIndex], changeInBrightness)
+            this.setColor(colorData, ColorModifiers.shiftColorBrightnessByDegree(this.currentColors[colorData.colorIndex], changeInBrightness))
         }
         this.draw();
     }
 
     changeAllSaturation(changeInSaturation) {
         for (let colorData of this.tableRows) {
-            colorData.input.value = ColorModifiers.shiftColorSaturationByDegree(this.currentColors[colorData.colorIndex], changeInSaturation)
+            this.setColor(colorData, ColorModifiers.shiftColorSaturationByDegree(this.currentColors[colorData.colorIndex], changeInSaturation))
         }
         this.draw();
     }
@@ -107,7 +113,7 @@ class Creature {
         let color = this.currentColors[colorIndex];
         for (let colorData of this.tableRows) {
             if (this.isColorOfGroup(colorData.colorIndex, colorGroupIndex)) {
-                colorData.input.value = ColorModifiers.setHueFromColor(colorData.input.value, color);
+                this.setColor(colorData, ColorModifiers.setHueFromColor(colorData.input.value, color))
             }
         }
         this.saveCurrentColors();
@@ -129,7 +135,7 @@ class Creature {
     setColorGroupRelativeHues(hueDegree, colorGroupIndex) {
         for (let colorData of this.tableRows) {
             if (this.isColorOfGroup(colorData.colorIndex, colorGroupIndex)) {
-                colorData.input.value = ColorModifiers.shiftColorHueByDegree(this.currentColors[colorData.colorIndex], hueDegree)
+                this.setColor(colorData, ColorModifiers.shiftColorHueByDegree(this.currentColors[colorData.colorIndex], hueDegree))
             }
         }
         this.draw();
@@ -138,7 +144,7 @@ class Creature {
     setColorGroupRelativeBrightness(brightnessDegree, colorGroupIndex) {
         for (let colorData of this.tableRows) {
             if (this.isColorOfGroup(colorData.colorIndex, colorGroupIndex)) {
-                colorData.input.value = ColorModifiers.shiftColorBrightnessByDegree(this.currentColors[colorData.colorIndex], brightnessDegree)
+                this.setColor(colorData, ColorModifiers.shiftColorBrightnessByDegree(this.currentColors[colorData.colorIndex], brightnessDegree))
             }
         }
         this.draw();
@@ -147,7 +153,7 @@ class Creature {
     setColorGroupRelativeSaturation(saturationDegree, colorGroupIndex) {
         for (let colorData of this.tableRows) {
             if (this.isColorOfGroup(colorData.colorIndex, colorGroupIndex)) {
-                colorData.input.value = ColorModifiers.shiftColorSaturationByDegree(this.currentColors[colorData.colorIndex], saturationDegree)
+                this.setColor(colorData, ColorModifiers.shiftColorSaturationByDegree(this.currentColors[colorData.colorIndex], saturationDegree))
             }
         }
         this.draw();
@@ -205,7 +211,7 @@ class Creature {
             let randomHueDegree = Math.random() * 360;
             for (let colorData of this.tableRows) {
                 if (this.isColorOfGroup(colorData.colorIndex, colorGroupIndex)) {
-                    colorData.input.value = ColorModifiers.shiftColorHueByDegree(colorData.input.value, randomHueDegree)
+                    this.setColor(colorData, ColorModifiers.shiftColorHueByDegree(colorData.input.value, randomHueDegree))
                 }
             }
         }
@@ -217,7 +223,7 @@ class Creature {
         let randomHueDegree = Math.random() * 360;
         for (let colorData of this.tableRows) {
             if (this.isColorOfGroup(colorData.colorIndex, colorGroupIndex)) {
-                colorData.input.value = ColorModifiers.shiftColorHueByDegree(colorData.input.value, randomHueDegree)
+                this.setColor(colorData, ColorModifiers.shiftColorHueByDegree(colorData.input.value, randomHueDegree))
             }
         }
         this.saveCurrentColors()
@@ -234,14 +240,14 @@ class Creature {
 
     reverseSaturationOfAllColorGroups() {
         for (let colorData of this.tableRows) {
-            colorData.input.value = ColorModifiers.reverseSaturation(colorData.input.value)
+            this.setColor(colorData, ColorModifiers.reverseSaturation(colorData.input.value))
         }
     }
 
     reverseSaturationOfColorGroup(colorGroupIndex) {
         for (let colorData of this.tableRows) {
             if (this.isColorOfGroup(colorData.colorIndex, colorGroupIndex)) {
-                colorData.input.value = ColorModifiers.reverseSaturation(colorData.input.value)
+                this.setColor(colorData, ColorModifiers.reverseSaturation(colorData.input.value))
             }
         }
     }
@@ -256,14 +262,14 @@ class Creature {
 
     reverseBrightnessOfAllColorGroups() {
         for (let colorData of this.tableRows) {
-            colorData.input.value = ColorModifiers.reverseBrightness(colorData.input.value)
+            this.setColor(colorData, ColorModifiers.reverseBrightness(colorData.input.value))
         }
     }
 
     reverseBrightnessOfColorGroup(colorGroupIndex) {
         for (let colorData of this.tableRows) {
             if (this.isColorOfGroup(colorData.colorIndex, colorGroupIndex)) {
-                colorData.input.value = ColorModifiers.reverseBrightness(colorData.input.value)
+                this.setColor(colorData, ColorModifiers.reverseBrightness(colorData.input.value))
             }
         }
     }
@@ -336,9 +342,9 @@ class Creature {
                     let currentBrightness = ColorModifiers.getAverageBrightness([colorData.input.value])
                     let newBrightness = (brightnessPercentChange < 0) ? currentBrightness * (1 + brightnessPercentChange) :
                         brightnessPercentChange * (1 - currentBrightness) + currentBrightness
-                    colorData.input.value = ColorModifiers.setBrightness(colorData.input.value, newBrightness)
-                    colorData.input.value = ColorModifiers.setSaturation(colorData.input.value, newSaturation)
-                    colorData.input.value = ColorModifiers.shiftColorHueByDegree(colorData.input.value, randomHueDegree)
+                    this.setColor(colorData, ColorModifiers.setBrightness(colorData.input.value, newBrightness))
+                    this.setColor(colorData, ColorModifiers.setSaturation(colorData.input.value, newSaturation))
+                    this.setColor(colorData, ColorModifiers.shiftColorHueByDegree(colorData.input.value, randomHueDegree))
 
                 }
 
@@ -389,9 +395,9 @@ class Creature {
                     let currentBrightness = ColorModifiers.getAverageBrightness([colorData.input.value])
                     let newBrightness = (brightnessPercentChange < 0) ? currentBrightness * (1 + brightnessPercentChange) :
                         brightnessPercentChange * (1 - currentBrightness) + currentBrightness
-                    colorData.input.value = ColorModifiers.setBrightness(colorData.input.value, newBrightness)
-                    colorData.input.value = ColorModifiers.setSaturation(colorData.input.value, newSaturation)
-                    colorData.input.value = ColorModifiers.shiftColorHueByDegree(colorData.input.value, randomHueDegree)
+                    this.setColor(colorData, ColorModifiers.setBrightness(colorData.input.value, newBrightness))
+                    this.setColor(colorData, ColorModifiers.setSaturation(colorData.input.value, newSaturation))
+                    this.setColor(colorData, ColorModifiers.shiftColorHueByDegree(colorData.input.value, randomHueDegree))
 
             }
         }
@@ -431,7 +437,7 @@ class Creature {
     resetColorGroupToDefault(colorGroupIndex) {
         for (let colorData of this.tableRows) {
             if (this.isColorOfGroup(colorData.colorIndex, colorGroupIndex)) {
-                colorData.input.value = this.defaultColors[colorData.colorIndex]
+                this.setColor(colorData, this.defaultColors[colorData.colorIndex])
             }
         }
         this.saveCurrentColors()
@@ -441,7 +447,7 @@ class Creature {
 
     resetAllColorsToDefault() {
         for (let colorData of this.tableRows) {
-            colorData.input.value = this.defaultColors[colorData.colorIndex]
+            this.setColor(colorData, this.defaultColors[colorData.colorIndex])
         }
         this.saveCurrentColors()
         this.draw()
