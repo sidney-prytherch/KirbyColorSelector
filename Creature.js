@@ -469,6 +469,7 @@ class Creature {
 
         let topSpace = Math.floor((this.canvas.height - (this.pixelSize * this.maxPixelHeight)) / 2)
         let leftSpace = Math.floor((this.canvas.width - (this.pixelSize * this.maxPixelWidth)) / 2)
+        this.ctx.strokeStyle = "#000000"
 
         for (let y = 0; y < currentImage.length; y++) {
             for (let x = 0; x < currentImage[y].length; x++) {
@@ -478,6 +479,15 @@ class Creature {
                 this.ctx.beginPath(); // Start a new path
                 this.ctx.rect(x * this.pixelSize + leftSpace, y * this.pixelSize + topSpace, this.pixelSize, this.pixelSize); // Add a rectangle to the current path
                 this.ctx.fill(); // Render the path
+                if (currentImage[y][x] && currentImage[y][x].outline) {
+                    if (this.ctx.strokeStyle == "#000000") {
+                        this.ctx.strokeStyle = ColorModifiers.getBrightComplimentaryColor(color)
+                    }
+                    this.ctx.lineWidth = 1;
+                    this.ctx.beginPath(); // Start a new path
+                    this.ctx.rect(x * this.pixelSize + leftSpace + 1, y * this.pixelSize + topSpace + 1, this.pixelSize - 2, this.pixelSize - 2); // Add a rectangle to the current path
+                    this.ctx.stroke(); // Render the path
+                }
             }
         }
     }
@@ -485,6 +495,7 @@ class Creature {
     updateColorTableDisplay() {
         for (let colorData of this.tableRows) {
             this.colorObjects[colorData.colorIndex].color = colorData.input.value;
+            this.colorObjects[colorData.colorIndex].outline = colorData.outline;
             colorData.span.innerHTML = `${colorData.colorIndex + this.firstColorIndex}: ${colorData.input.value}`;
         }
 

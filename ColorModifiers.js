@@ -222,4 +222,12 @@ class ColorModifiers {
         return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
     }
 
+    static getBrightComplimentaryColor(rgb) {
+        var hsl = this.rgbToHSL(rgb);
+        hsl.h = (hsl.h + 180) % 360;
+        hsl.s = 1;
+        hsl.l = .5;
+        return this.hslToRGB(hsl);
+    }
+
 }
