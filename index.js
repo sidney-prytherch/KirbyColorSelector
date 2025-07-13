@@ -72,6 +72,10 @@ function createCreature(character) {
         defaultPaletteDropdown.appendChild(option);
     }
 
+    if (defaultPalettes.length === 1) {
+        defaultPaletteDropdown.parentNode.style.display = "none"
+    }
+
     maxPixelHeight = 0;
     maxPixelWidth = 0;
     let animation = animations[0].animationImages;
